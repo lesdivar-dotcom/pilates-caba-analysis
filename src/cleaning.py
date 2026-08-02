@@ -237,6 +237,141 @@ def validar_emails(df):
     print("\nCantidad de emails válidos:")
 
     print(df["email"].notna().sum())
+    
+def explorar_barrios(df):
+
+    print("\n===== BARRIOS =====\n")
+
+    print(df["barrio"].head(20))
+
+    print("\nCantidad de barrios distintos:")
+
+    print(df["barrio"].nunique())
+
+    print("\nBarrios únicos:\n")
+
+    print(sorted(df["barrio"].dropna().unique()))
+def limpiar_barrios(df):
+
+    df["barrio"] = (
+        df["barrio"]
+        .astype("string")
+        .str.strip()
+        .str.title()
+    )
+
+    reemplazos = {
+
+        "Belgrano, Sede Nueva En Recoleta.": "Belgrano",
+
+        "Palermo Soho": "Palermo",
+        "Palermo Hollywood": "Palermo",
+        "Palermo Chico": "Palermo",
+        "Palermo  Soho": "Palermo",
+        "Palermo Es Recoleta": "Palermo",
+        "Palermo  Es Recoleta": "Palermo",
+        "Palermo  Es Recoleta ": "Palermo",
+        "Palermo Hollywood ": "Palermo",
+
+        "Recoleta O Palermo": "Recoleta",
+        "Recoleta Y Palermo": "Recoleta",
+
+        "Colegiales- Palermo Hollywood": "Colegiales",
+
+        "Villa Del Parque": "Villa del Parque",
+        "Villa Del parque": "Villa del Parque",
+
+        "Villa Crespo": "Villa Crespo",
+        "Villa Urquiza": "Villa Urquiza",
+
+        "Villa General Mitre": "Villa General Mitre",
+        "Villa Real ": "Villa Real",
+
+        "Agranomía": "Agronomía",
+        "Chacharita": "Chacarita",
+        "Linier": "Liniers",
+        "Paque Chacabuco": "Parque Chacabuco",
+
+        "Villa Luro O Floresta": "Villa Luro",
+        "Villa Luro O Versalles": "Villa Luro",
+        "Almagro (Está Dentro Del Abasto)": "Almagro",
+        "Vélez": "Vélez Sársfield"
+    }
+
+    df["barrio"] = df["barrio"].replace(reemplazos)
+
+    return df
+def contar_barrios(df):
+
+    print("\n===== CANTIDAD DE ESTUDIOS POR BARRIO =====\n")
+
+    conteo = (
+        df["barrio"]
+        .value_counts()
+        .sort_values(ascending=False)
+    )
+
+    print(conteo)
+    print("\nBarrios vacíos:")
+
+    print(df["barrio"].isna().sum())
+def revisar_barrios_vacios(df):
+
+    print("\n===== ESTUDIOS SIN BARRIO =====\n")
+
+    print(
+        df.loc[
+            df["barrio"].isna(),
+            [
+                "nombre_del_estudio",
+                "direccion",
+                "telefono",
+                "instagram",
+                "web"
+            ]
+        ]
+    )
+  
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_colwidth", None)
+pd.set_option("display.width", 200)
+
+def revisar_barrios_vacios(df):
+
+    pd.set_option("display.max_columns", None)
+    pd.set_option("display.max_colwidth", None)
+    pd.set_option("display.width", 200)
+
+    print("\n===== ESTUDIOS SIN BARRIO =====\n")
+
+    print(
+        df.loc[
+            df["barrio"].isna(),
+            [
+                "nombre_del_estudio",
+                "direccion",
+                "telefono",
+                "instagram",
+                "web"
+            ]
+        ]
+    )  
+def completar_barrios_faltantes(df):
+
+    correcciones = {
+        "Mikigai Pilates": "Floresta",
+        "Espacio Mat - CLASES ONLINE de Pilates - Elongación - Yoga": "Colegiales",
+        "Holística Yoga & Pilates": "Boedo",
+        "CONSCIOUS STUDIO PILATES": "Villa del Parque",
+    }
+
+    for estudio, barrio in correcciones.items():
+        df.loc[
+            df["nombre_del_estudio"] == estudio,
+            "barrio"
+        ] = barrio
+
+    return df
 # =====================================
 # GUARDAR
 # =====================================
@@ -259,16 +394,19 @@ def main():
     df = limpiar_columnas(df)
 
     df = limpiar_seguidores(df)
-
     df = limpiar_puntajes(df)
     df = limpiar_telefonos(df)
     df = limpiar_emails(df)
-    
+    df = limpiar_barrios(df)
+    df = completar_barrios_faltantes(df)
     print("\nPrimeras filas:")
     print(df.head())
     explorar_emails(df)
     validar_emails(df)
     explorar_telefonos(df)
+    explorar_barrios(df)
+    contar_barrios(df)
+    revisar_barrios_vacios(df)
     analizar_longitud_telefonos(df)
     guardar_csv(df)
 
