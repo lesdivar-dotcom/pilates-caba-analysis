@@ -44,10 +44,25 @@ pilates-caba-analysis/
 
 ## Estado del proyecto
 
-🚧 En desarrollo.
+### ✅ Fase 1 - Limpieza de datos (completada)
 
-Actualmente se encuentra en la etapa de limpieza y normalización de datos.
+Se normalizaron:
 
-## Autor
+- columnas
+- seguidores
+- puntajes
+- teléfonos
+- emails
+- barrios
+- fabricantes
+- sitios web
+- Instagram
+- aplicaciones de reservas
+
+Se generó:
+
+data/interim/estudios_limpios.csv
+
+## Autor: Leandro Estupiñán
 
 Proyecto 
