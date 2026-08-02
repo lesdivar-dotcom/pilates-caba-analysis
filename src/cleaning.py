@@ -643,6 +643,149 @@ def limpiar_app(df):
     ] = "Linktree"
 
     return df
+## =====================================
+# NORMALIZACIÓN DE FABRICANTES
+# =====================================
+
+NORMALIZAR_FABRICANTES = {
+
+    # Studio Moderna
+    "Studio moderna": "Studio Moderna",
+    "Studio Moderna": "Studio Moderna",
+    "Studio moderna Pilates": "Studio Moderna",
+    "Studio Moderna Pilates": "Studio Moderna",
+    "Studio moderna pilates": "Studio Moderna",
+    "Studio moderno": "Studio Moderna",
+    "Moderna Studio": "Studio Moderna",
+
+    # Del Río
+    "Del Rio Pilates": "Del Río Pilates",
+    "Del Río Pilates": "Del Río Pilates",
+    "Del Río pilates": "Del Río Pilates",
+    "Del rio pilates": "Del Río Pilates",
+    "Del Rio": "Del Río Pilates",
+
+    # FOX
+    "Fox": "FOX",
+
+    # Life Pilates
+    "Life pilates": "Life Pilates",
+    "LIFEPILATES": "Life Pilates",
+
+    # IDPil
+    "Idepil.com": "IDPil",
+    "Idpil.com": "IDPil",
+    "IDpil.com": "IDPil",
+    "Idepil": "IDPil",
+
+    # P-Equipe
+    "P-equipe": "P-Equipe",
+    "p-equipe": "P-Equipe",
+    "P. Equipe": "P-Equipe",
+    "P.equipo ¿?": "P-Equipe",
+    "P equipo": "P-Equipe",
+    "p. equipe ¿": "P-Equipe",
+
+    # Reformer de caño
+    "Refomer de caño.": "Reformer de caño",
+    "Reformer de caño. No de madera.": "Reformer de caño",
+
+    # Pilates Mat
+    "Pilates mat": "Pilates Mat",
+    "mat": "Pilates Mat",
+}
+# =====================================
+# FABRICANTES
+# =====================================
+
+def limpiar_fabricantes(df):
+
+    df["fabricantes_ref"] = (
+        df["fabricantes_ref"]
+        .astype("string")
+        .str.strip()
+    )
+
+    # Valores sin información
+    df["fabricantes_ref"] = df["fabricantes_ref"].replace(
+        ["-", ".", "No informado"],
+        pd.NA
+    )
+
+    # Comentarios que no son fabricantes
+    comentarios = [
+        "Ambiente naturalista",
+        "Amplio",
+        "básico",
+        "Asi un Gyn",
+        "Fitnees",
+        "Armonía ¿",
+    ]
+
+    for texto in comentarios:
+        df.loc[
+            df["fabricantes_ref"].str.contains(
+                texto,
+                case=False,
+                na=False,
+            ),
+            "fabricantes_ref",
+        ] = pd.NA
+
+    # Normalización mediante diccionario
+    df["fabricantes_ref"] = (
+        df["fabricantes_ref"]
+        .replace(NORMALIZAR_FABRICANTES)
+    )
+
+    # Normalización por patrones
+    df.loc[
+        df["fabricantes_ref"].str.fullmatch(
+            "p&p",
+            case=False,
+            na=False,
+        ),
+        "fabricantes_ref",
+    ] = "P&P"
+
+    df.loc[
+        df["fabricantes_ref"].str.fullmatch(
+            "fox",
+            case=False,
+            na=False,
+        ),
+        "fabricantes_ref",
+    ] = "FOX"
+
+    return df
+NORMALIZAR_FABRICANTES.update({
+
+    "MB": "MB Design",
+    "MB Desing": "MB Design",
+
+    "Spa.com.ar": "Spa",
+
+    "Hek T pilates": "Hek",
+
+    "RM pilates": "RM",
+
+    "Armonia reformer": "Armonía",
+
+    "APC ¿?": "APC",
+
+    "P(B)ylive.com.ar, buscar esta marca": "Live Pilates",
+    "LIFEPILATES": "Live Pilates",
+
+    "Reformer no clásicos": "Reformer metálico",
+
+    "Del Rio Pilates Reformer": "Del Río Pilates",
+    "Wunda chair, marca Del Rio Pilates": "Del Río Pilates",
+
+    "Studio Moderna Pilates a": "Studio Moderna",
+    "Studio Moderna pilates.": "Studio Moderna",
+    "Studio moderna y": "Studio Moderna",
+
+})
 # =====================================
 # GUARDAR
 # =====================================
@@ -657,7 +800,6 @@ def guardar_csv(df):
 # =====================================
 # MAIN
 # =====================================
-
 def main():
 
     df = cargar_datos()
@@ -671,7 +813,8 @@ def main():
     df = limpiar_web(df)
     df = limpiar_instagram(df)
     df = limpiar_diseno(df)
-    df = limpiar_app(df)          # ← AGREGAR ESTA LÍNEA
+    df = limpiar_app(df)
+    df = limpiar_fabricantes(df)
     df = completar_barrios_faltantes(df)
 
     print("\nPrimeras filas:")
@@ -687,14 +830,49 @@ def main():
     explorar_diseno(df)
     explorar_web(df)
     explorar_instagram(df)
-    explorar_app(df)              # ← ahora muestra la columna ya limpia
+    explorar_app(df)
     revisar_barrios_vacios(df)
     analizar_longitud_telefonos(df)
+
+    print("\n===== FABRICANTES A REVISAR =====\n")
+
+    revisar = [
+        "MB Desing",
+        "Spa.com.ar",
+        "P(B)ylive.com.ar, buscar esta marca",
+        "RM pilates",
+        "Hek T pilates",
+        "VC",
+        "IProfe",
+        "P&P y FOX",
+        "P&P y Del Rio pilates",
+        "Studio Moderna Pilates y P&P",
+        "Studio moderna y Life pilates a",
+        "Studio moderna (chair),reformer de caño",
+        "NUEVA LINEA JVS PILATES REFORMER y Studio moderna pilates.",
+    ]
+
+    print(
+        df.loc[
+            df["fabricantes_ref"].isin(revisar),
+            [
+                "nombre_del_estudio",
+                "fabricantes_ref",
+                "direccion",
+                "instagram",
+                "web",
+            ]
+        ]
+    )
 
     print("\n===== APP LIMPIA =====\n")
     print(df["app"].value_counts(dropna=False))
 
+    print("\n===== FABRICANTES LIMPIOS =====\n")
+    print(df["fabricantes_ref"].value_counts(dropna=False))
+
     guardar_csv(df)
+
 
 if __name__ == "__main__":
     main()
