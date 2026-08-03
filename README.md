@@ -1,32 +1,39 @@
-# Análisis del mercado de estudios de Pilates en CABA
+# Observatorio Pilates Transverso
 
-Proyecto de análisis de datos desarrollado con Python para estudiar el mercado de los estudios de Pilates en la Ciudad Autónoma de Buenos Aires (CABA).
+Proyecto de análisis de datos desarrollado en Python para construir el primer Observatorio del mercado de estudios de Pilates de la Ciudad Autónoma de Buenos Aires (CABA).
 
-## Objetivo
+El objetivo es generar una base de datos propia, confiable y reproducible que permita estudiar la oferta de estudios de Pilates desde una perspectiva territorial, tecnológica y de equipamiento.
 
-El objetivo es construir una base de datos propia sobre estudios de Pilates, para la web Transverso Observatorio Pilates y analizar:
+---
 
-- Distribución geográfica por barrio.
-- Presencia digital (Instagram, web, email y aplicaciones).
-- Reputación online mediante Google.
-- Equipamiento utilizado.
-- Servicios adicionales.
-- Indicadores del mercado.
+# Objetivos
 
-## Tecnologías
+El Observatorio busca responder preguntas como:
+
+- ¿Dónde se concentran los estudios de Pilates?
+- ¿Qué barrios presentan mayor o menor oferta?
+- ¿Cómo es la presencia digital del sector?
+- ¿Qué fabricantes de equipamiento predominan?
+- ¿Qué características presenta el mercado?
+
+---
+
+# Tecnologías
 
 - Python
 - Pandas
-- SQLite
+- SQLite (próxima etapa)
 - Matplotlib
-- Streamlit
+- Streamlit (futuro dashboard)
 - Git y GitHub
 
-## Estructura del proyecto
+---
+
+# Arquitectura del proyecto
 
 ```text
 pilates-caba-analysis/
-│
+
 ├── data/
 │   ├── raw/
 │   ├── interim/
@@ -36,17 +43,25 @@ pilates-caba-analysis/
 ├── reports/
 ├── dashboard/
 ├── src/
+│   ├── cleaning.py
+│   ├── constants.py
+│   ├── features.py
+│   └── analysis.py
 │
 ├── README.md
+├── roadmap.md
+├── diccionario_datos.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-## Estado del proyecto
+---
 
-### ✅ Fase 1 - Limpieza de datos (completada)
+# Estado del proyecto
 
-Se normalizaron:
+## ✅ Motor 1 — Limpieza de datos (completado)
+
+Normalización de:
 
 - columnas
 - seguidores
@@ -59,10 +74,70 @@ Se normalizaron:
 - Instagram
 - aplicaciones de reservas
 
-Se generó:
+Salida:
 
+```
 data/interim/estudios_limpios.csv
+```
 
-## Autor: Leandro Estupiñán
+---
 
-Proyecto 
+## ✅ Motor 2 — Ingeniería de variables (completado)
+
+Generación de variables analíticas:
+
+### Geografía
+
+- barrio
+- comuna
+- zona
+
+### Presencia digital
+
+- presencia_digital
+
+### Contactabilidad
+
+- n_canales_contacto
+
+### Equipamiento
+
+- n_fabricantes
+- fabricante_multiple
+
+Salida:
+
+```
+data/processed/estudios_features.csv
+```
+
+---
+
+# Próxima etapa
+
+## Motor 3 — Análisis
+
+Se desarrollará el módulo `analysis.py`, encargado de transformar las variables analíticas en indicadores, tablas, visualizaciones y conocimiento sobre el mercado.
+
+---
+
+# Roadmap
+
+Las próximas etapas incluyen:
+
+- análisis territorial
+- análisis digital
+- análisis de fabricantes
+- migración a SQLite
+- carga manual de nuevos estudios
+- dashboard interactivo
+- expansión a otras ciudades
+- expansión internacional
+
+---
+
+# Autor
+
+**Leandro Estupiñán**
+
+Proyecto desarrollado para **Transverso – Observatorio Pilates**.

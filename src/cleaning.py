@@ -712,7 +712,7 @@ def limpiar_fabricantes(df):
         pd.NA
     )
 
-    # Comentarios que no son fabricantes
+    # Comentarios que no representan fabricantes
     comentarios = [
         "Ambiente naturalista",
         "Amplio",
@@ -738,7 +738,9 @@ def limpiar_fabricantes(df):
         .replace(NORMALIZAR_FABRICANTES)
     )
 
-    # Normalización por patrones
+    # Normalizaciones simples por patrón
+
+    # P&P
     df.loc[
         df["fabricantes_ref"].str.fullmatch(
             "p&p",
@@ -748,6 +750,7 @@ def limpiar_fabricantes(df):
         "fabricantes_ref",
     ] = "P&P"
 
+    # FOX
     df.loc[
         df["fabricantes_ref"].str.fullmatch(
             "fox",
@@ -758,34 +761,72 @@ def limpiar_fabricantes(df):
     ] = "FOX"
 
     return df
-NORMALIZAR_FABRICANTES.update({
 
-    "MB": "MB Design",
-    "MB Desing": "MB Design",
 
-    "Spa.com.ar": "Spa",
+NORMALIZAR_FABRICANTES = {
 
-    "Hek T pilates": "Hek",
-
-    "RM pilates": "RM",
-
-    "Armonia reformer": "Armonía",
-
-    "APC ¿?": "APC",
-
-    "P(B)ylive.com.ar, buscar esta marca": "Live Pilates",
-    "LIFEPILATES": "Live Pilates",
-
-    "Reformer no clásicos": "Reformer metálico",
-
-    "Del Rio Pilates Reformer": "Del Río Pilates",
-    "Wunda chair, marca Del Rio Pilates": "Del Río Pilates",
-
+    # Studio Moderna
+    "Studio moderna": "Studio Moderna",
+    "Studio moderna Pilates": "Studio Moderna",
+    "Studio Moderna Pilates": "Studio Moderna",
+    "Studio moderna pilates": "Studio Moderna",
+    "Studio moderno": "Studio Moderna",
+    "Moderna Studio": "Studio Moderna",
     "Studio Moderna Pilates a": "Studio Moderna",
     "Studio Moderna pilates.": "Studio Moderna",
     "Studio moderna y": "Studio Moderna",
 
-})
+    # Del Río Pilates
+    "Del Rio Pilates": "Del Río Pilates",
+    "Del Río Pilates": "Del Río Pilates",
+    "Del Río pilates": "Del Río Pilates",
+    "Del rio pilates": "Del Río Pilates",
+    "Del Rio": "Del Río Pilates",
+    "Del Rio Pilates Reformer": "Del Río Pilates",
+    "Wunda chair, marca Del Rio Pilates": "Del Río Pilates",
+
+    # FOX
+    "Fox": "FOX",
+
+    # IDPil
+    "Idepil.com": "IDPil",
+    "Idpil.com": "IDPil",
+    "IDpil.com": "IDPil",
+    "Idepil": "IDPil",
+
+    # Life Pilates
+    "Life pilates": "Life Pilates",
+    "P(B)ylive.com.ar, buscar esta marca": "Live Pilates",
+    "LIFEPILATES": "Live Pilates",
+
+    # P-Equipe
+    "P-equipe": "P-Equipe",
+    "p-equipe": "P-Equipe",
+    "P. Equipe": "P-Equipe",
+    "P.equipo ¿?": "P-Equipe",
+    "P equipo": "P-Equipe",
+    "p. equipe ¿": "P-Equipe",
+
+    # Reformer de caño
+    "Refomer de caño.": "Reformer de caño",
+    "Reformer de caño. No de madera.": "Reformer de caño",
+
+    # Pilates Mat
+    "Pilates mat": "Pilates Mat",
+    "mat": "Pilates Mat",
+
+    # Otras marcas verificadas
+    "MB": "MB Design",
+    "MB Desing": "MB Design",
+    "Spa.com.ar": "Spa",
+    "Hek T pilates": "Hek",
+    "RM pilates": "RM",
+    "Armonia reformer": "Armonía",
+    "APC ¿?": "APC",
+
+    # Clasificación técnica
+    "Reformer no clásicos": "Reformer metálico",
+}
 # =====================================
 # GUARDAR
 # =====================================
