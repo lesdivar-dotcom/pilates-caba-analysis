@@ -48,11 +48,39 @@ Próximas etapas
 □ Dashboard
 """
 import pandas as pd
+from pathlib import Path
+# =====================================
+# PARÁMETROS DEL MOTOR ESTRATÉGICO
+# =====================================
+
+# Índice de Visibilidad
+# Prioriza alcance digital y capacidad de ser encontrado.
+
+PESO_VIS_SEGUIDORES = 0.45
+PESO_VIS_PRESENCIA = 0.30
+PESO_VIS_CONTACTO = 0.15
+PESO_VIS_WEB = 0.10
+
+
+# Índice de Desarrollo Digital
+# Evalúa el grado de madurez digital del estudio.
+
+PESO_DES_PRESENCIA = 0.40
+PESO_DES_CONTACTO = 0.30
+PESO_DES_APP = 0.20
+PESO_DES_WEB = 0.10
+
+
+# Índice de Competitividad
+# Combina reputación, visibilidad, desarrollo y equipamiento.
+
+PESO_COMP_REPUTACION = 0.40
+PESO_COMP_VISIBILIDAD = 0.25
+PESO_COMP_DESARROLLO = 0.20
+PESO_COMP_EQUIPAMIENTO = 0.15
 # =====================================
 # CARGA
 # =====================================
-import pandas as pd
-
 def cargar_datos():
     """
     Carga el dataset analítico generado por
@@ -746,155 +774,6 @@ def normalizar_0_1(serie):
 
     return (serie - minimo) / (maximo - minimo)
 
-def calcular_indice_visibilidad(df):
-    """
-    Calcula el índice de visibilidad
-    de cada estudio.
-
-    Componentes
-    -----------
-    - presencia digital
-    - canales de contacto
-    - seguidores
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    df = df.copy()
-
-    df["seguidores_norm"] = normalizar_0_1(
-        df["seguidores"].fillna(0)
-    )
-
-    presencia = (
-        df["presencia_digital"] / 4
-    )
-
-    contacto = (
-        df["n_canales_contacto"] / 4
-    )
-
-    df["indice_visibilidad"] = (
-
-        presencia * 0.40 +
-
-        contacto * 0.30 +
-
-        df["seguidores_norm"] * 0.30
-
-    ).round(3)
-
-    return df
-
-def analizar_indice_visibilidad(df):
-    """
-    Resume el índice de visibilidad.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    tabla = pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Mediana",
-            "Mínimo",
-            "Máximo"
-
-        ],
-
-        "valor": [
-
-            round(df["indice_visibilidad"].mean(), 3),
-
-            round(df["indice_visibilidad"].median(), 3),
-
-            round(df["indice_visibilidad"].min(), 3),
-
-            round(df["indice_visibilidad"].max(), 3)
-
-        ]
-
-    })
-
-    return tabla
-
-def ranking_visibilidad(df, top=20):
-    """
-    Ranking de estudios según
-    índice de visibilidad.
-    """
-
-    columnas = [
-
-        "nombre_del_estudio",
-
-        "barrio",
-
-        "indice_visibilidad",
-
-        "seguidores",
-
-        "presencia_digital",
-
-        "n_canales_contacto"
-
-    ]
-
-    return (
-        df[columnas]
-        .sort_values(
-            "indice_visibilidad",
-            ascending=False
-        )
-        .head(top)
-    )
-    
-# -----------------------------
-# Indicadores compuestos
-# -----------------------------
-
-    df = calcular_indice_visibilidad(df)
-
-    resultados["indice_visibilidad"] = (
-        analizar_indice_visibilidad(df)
-    )
-
-    resultados["ranking_visibilidad"] = (
-        ranking_visibilidad(df)
-    )
-# =====================================
-# CLASIFICACIÓN DEL ÍNDICE
-# =====================================
-def clasificar_visibilidad(indice):
-    """
-    Clasifica el índice de visibilidad.
-
-    Retorna
-    -------
-    str
-    """
-
-    if indice < 0.25:
-        return "Muy baja"
-
-    elif indice < 0.50:
-        return "Baja"
-
-    elif indice < 0.75:
-        return "Alta"
-
-    return "Muy alta"
-
-    df["nivel_visibilidad"] = (
-        df["indice_visibilidad"]
-        .apply(clasificar_visibilidad)
-)
 
 def analizar_nivel_visibilidad(df):
     """
@@ -977,10 +856,11 @@ def calcular_indice_visibilidad(df):
     )
 
     df["indice_visibilidad"] = (
-        seguidores * 0.45 +
-        presencia * 0.30 +
-        contacto * 0.15 +
-        web * 0.10
+        seguidores * PESO_VIS_SEGUIDORES +
+        presencia * PESO_VIS_PRESENCIA +
+        contacto * PESO_VIS_CONTACTO +
+        web * PESO_VIS_WEB
+
     ).round(3)
 
     df["nivel_visibilidad"] = (
@@ -989,109 +869,6 @@ def calcular_indice_visibilidad(df):
     )
 
     return df
-
-# =====================================
-# RESUMEN ÍNDICE DE VISIBILIDAD
-# =====================================
-
-def analizar_indice_visibilidad(df):
-    """
-    Resume el índice de visibilidad.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    tabla = pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Mediana",
-            "Mínimo",
-            "Máximo"
-
-        ],
-
-        "valor": [
-
-            round(df["indice_visibilidad"].mean(), 3),
-
-            round(df["indice_visibilidad"].median(), 3),
-
-            round(df["indice_visibilidad"].min(), 3),
-
-            round(df["indice_visibilidad"].max(), 3)
-
-        ]
-
-    })
-
-    return tabla
-# =====================================
-# RANKING VISIBILIDAD
-# =====================================
-
-def ranking_visibilidad(df, top=20):
-    """
-    Ranking de estudios con mayor
-    índice de visibilidad.
-    """
-
-    tabla = (
-
-        df[
-            [
-                "nombre_del_estudio",
-                "barrio",
-                "indice_visibilidad"
-            ]
-        ]
-
-        .sort_values(
-            "indice_visibilidad",
-            ascending=False
-        )
-
-        .head(top)
-
-        .reset_index(drop=True)
-
-    )
-
-    return tabla
-
-# =====================================
-# MENOR VISIBILIDAD
-# =====================================
-
-def ranking_baja_visibilidad(df, top=20):
-    """
-    Estudios con menor visibilidad.
-    """
-
-    tabla = (
-
-        df[
-            [
-                "nombre_del_estudio",
-                "barrio",
-                "indice_visibilidad"
-            ]
-        ]
-
-        .sort_values(
-            "indice_visibilidad"
-        )
-
-        .head(top)
-
-        .reset_index(drop=True)
-
-    )
-
-    return tabla
 
 # =====================================
 # NIVELES DE VISIBILIDAD
@@ -1109,40 +886,6 @@ def clasificar_visibilidad(indice):
         return "Alta"
 
     return "Muy alta"
-# =====================================
-# DISTRIBUCIÓN VISIBILIDAD
-# =====================================
-
-def distribucion_visibilidad(df):
-    """
-    Distribución de niveles
-    de visibilidad.
-    """
-
-    tabla = (
-
-        df["nivel_visibilidad"]
-
-        .value_counts()
-
-        .rename_axis("nivel")
-
-        .reset_index(name="estudios")
-
-    )
-
-    tabla["porcentaje"] = (
-
-        tabla["estudios"]
-
-        / tabla["estudios"].sum()
-
-        * 100
-
-    ).round(2)
-
-    return tabla
-
 # =====================================
 # ÍNDICE DE DESARROLLO DIGITAL
 # =====================================
@@ -1184,15 +927,10 @@ def calcular_indice_desarrollo_digital(df):
     )
 
     df["indice_desarrollo_digital"] = (
-
-        presencia * 0.40 +
-
-        contacto * 0.30 +
-
-        web * 0.20 +
-
-        app * 0.10
-
+        presencia * PESO_DES_PRESENCIA +
+        contacto * PESO_DES_CONTACTO +
+        app * PESO_DES_APP +
+        web * PESO_DES_WEB
     ).round(3)
 
     return df
@@ -1295,6 +1033,156 @@ def resumen_desarrollo_digital(df):
         ]
 
     })
+# =====================================
+# RANKINGS
+# =====================================
+# =====================================
+# VISIBILIDAD
+# =====================================
+
+def ranking_baja_visibilidad(df, top=20):
+    """
+    Estudios con menor visibilidad.
+    """
+
+    tabla = (
+
+        df[
+            [
+                "nombre_del_estudio",
+                "barrio",
+                "indice_visibilidad"
+            ]
+        ]
+
+        .sort_values(
+            "indice_visibilidad"
+        )
+
+        .head(top)
+
+        .reset_index(drop=True)
+
+    )
+
+    return tabla
+# =====================================
+# desarrollo digital
+# =====================================
+
+def ranking_desarrollo_digital(df, n=20):
+    """
+    Ranking de desarrollo digital.
+    """
+
+    columnas = [
+
+        "nombre_del_estudio",
+        "barrio",
+        "zona",
+        "indice_desarrollo_digital",
+        "nivel_desarrollo_digital"
+
+    ]
+
+    return (
+
+        df[columnas]
+
+        .sort_values(
+            "indice_desarrollo_digital",
+            ascending=False
+        )
+
+        .head(n)
+
+    )
+# =====================================
+# seguidores
+# =====================================
+
+def ranking_seguidores(df, n=20):
+
+    columnas = [
+
+        "nombre_del_estudio",
+        "seguidores",
+        "barrio",
+        "zona"
+
+    ]
+
+    return (
+
+        df[columnas]
+
+        .sort_values(
+            "seguidores",
+            ascending=False
+        )
+
+        .head(n)
+
+    )
+# =====================================
+# google
+# =====================================
+
+def ranking_google(df, n=20):
+
+    columnas = [
+
+        "nombre_del_estudio",
+        "puntaje_google",
+        "cantidad_resenas",
+        "barrio"
+
+    ]
+
+    return (
+
+        df[columnas]
+
+        .sort_values(
+            ["puntaje_google", "cantidad_resenas"],
+            ascending=False
+        )
+
+        .head(n)
+
+    )
+
+# =====================================
+# EXPORTACIÓN
+# =====================================
+OUTPUT = Path("data/output")
+
+OUTPUT.mkdir(
+    parents=True,
+    exist_ok=True
+)
+def exportar_tabla(nombre, tabla):
+
+    tabla.to_csv(
+
+        OUTPUT / f"{nombre}.csv",
+
+        index=False,
+
+        encoding="utf-8-sig"
+
+    )
+def exportar_resultados(resultados):
+
+    for nombre, tabla in resultados.items():
+
+        exportar_tabla(
+
+            nombre,
+
+            tabla
+
+        )
     
 
 
@@ -1344,15 +1232,14 @@ def main():
         "desarrollo_digital": analizar_desarrollo_digital(df),
         "resumen_desarrollo_digital": resumen_desarrollo_digital(df),
     }
+    exportar_resultados(resultados)
 
     for nombre, tabla in resultados.items():
-
-        print(f"\n{'=' * 50}")
+        print(f"\n{'='*50}")
         print(nombre.upper())
-        print(f"{'=' * 50}\n")
+        print(f"{'='*50}\n")
 
         print(tabla)
-
 
 if __name__ == "__main__":
     main()
