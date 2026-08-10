@@ -1,26 +1,25 @@
 """
-Limpieza de datos
-Proyecto: Mercado de Estudios de Pilates en CABA
-Autor: Tu nombre
-"""
-"""
-Proyecto: Análisis del mercado de estudios de Pilates en CABA
+=====================================
+OBSERVATORIO PILATES
+CLEANING
+=====================================
 
-Módulo:
-    cleaning.py
+Estado: ESTABLE (v1.0)
 
-Responsabilidad:
-    - Leer datos originales
-    - Limpiar columnas
-    - Transformar variables
-    - Validar datos
-    - Exportar dataset limpio
+Este módulo:
 
-Autor:
-    Tu nombre
+✓ limpia columnas
+✓ normaliza teléfonos
+✓ normaliza emails
+✓ normaliza barrios
+✓ normaliza fabricantes
+✓ normaliza Instagram
+✓ normaliza web
+✓ normaliza apps
+✓ genera estudios_limpios.csv
 
-Fecha:
-    2026
+No crea variables derivadas.
+Eso corresponde a features.py
 """
 
 import pandas as pd
@@ -48,6 +47,15 @@ def cargar_datos():
     print(f"Se cargaron {len(df)} estudios.")
 
     return df
+
+# =====================================
+# IDENTIFICACIÓN DEL ESTUDIO
+# =====================================
+
+df["id_estudio"] = [
+    f"EST-{i:04d}"
+    for i in range(1, len(df) + 1)
+]
 
 
 # =====================================

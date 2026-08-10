@@ -17,16 +17,20 @@ Entrada:
 Salida:
     data/processed/estudios_features.csv
 
-Principios
-----------
+Principios:
+
 - Nunca modifica datos originales.
 - Cada función crea una única variable derivada.
 - Todas las variables creadas son reutilizadas por analysis.py.
 - Todas las features son reproducibles.
+- id_estudio funciona como identificador estable del estudio.
+- Las métricas temporales, como seguidores de Instagram,
+  valoración de Google y cantidad de reseñas, conservan
+  su fecha de recolección.
 
-Variables implementadas
------------------------
+Variables implementadas:
 
+✔ id_estudio
 ✔ comuna
 ✔ zona
 ✔ presencia_digital
@@ -34,25 +38,85 @@ Variables implementadas
 ✔ n_fabricantes
 ✔ fabricante_multiple
 
-Próximas variables
-------------------
+Variables temporales conservadas desde los datos:
+
+✔ seguidores_instagram
+✔ puntaje_google
+✔ cantidad_resenas
+✔ fecha_recoleccion
+
+Próximas variables:
 
 □ densidad territorial
 □ equipamiento
 □ métricas históricas
 □ indicadores temporales
 """
+
 import pandas as pd
+
 
 # =====================================
 # CARGA
 # =====================================
 
 def cargar_datos():
+    """
+    Carga los datos limpios.
 
-    return pd.read_csv(
+    También normaliza el nombre de la columna
+    de seguidores de Instagram.
+
+    Si el dataset ya contiene id_estudio,
+    se conserva.
+
+    Si no contiene id_estudio, se genera
+    por única vez para los registros actuales.
+
+    Retorna
+    -------
+    pandas.DataFrame
+    """
+
+    df = pd.read_csv(
         "data/interim/estudios_limpios.csv"
     )
+
+    # =================================
+    # INSTAGRAM
+    # =================================
+
+    if (
+        "seguidores" in df.columns
+        and "seguidores_instagram" not in df.columns
+    ):
+        df = df.rename(
+            columns={
+                "seguidores": "seguidores_instagram"
+            }
+        )
+
+    # =================================
+    # ID ESTUDIO
+    # =================================
+
+    if "id_estudio" not in df.columns:
+
+        df["id_estudio"] = [
+            f"EST-{i:04d}"
+            for i in range(1, len(df) + 1)
+        ]
+
+        print(
+            "\nAdvertencia:"
+            "\nid_estudio no estaba presente en "
+            "estudios_limpios.csv."
+            "\nSe generaron identificadores para "
+            "los registros actuales."
+        )
+
+    return df
+
 
 # =====================================
 # GEOGRAFÍA
@@ -109,7 +173,10 @@ MAPA_COMUNAS = {
     "Villa Santa Rita": 11,
     "Villa Soldati": 8,
     "Villa Urquiza": 12,
+
 }
+
+
 # =====================================
 # ZONAS TRANSVERSO
 # =====================================
@@ -133,8 +200,120 @@ MAPA_ZONAS = {
     15: "Norte",
 
 }
+
+
 # =====================================
-# COMUNA y ZONA
+# MAESTRO DE MARCAS
+# =====================================
+
+def crear_maestro_marcas():
+    """
+    Crea la estructura maestra de marcas.
+
+    Cada marca tendrá un identificador único
+    independiente del identificador del estudio.
+
+    Retorna
+    -------
+    DataFrame
+    """
+
+    marcas = pd.DataFrame({
+
+        "id_marca": pd.Series(dtype="string"),
+
+        "nombre_marca": pd.Series(dtype="string"),
+
+        "observaciones": pd.Series(dtype="string"),
+
+    })
+
+    return marcas
+
+
+# =====================================
+# MARCAS CONOCIDAS
+# =====================================
+
+MARCAS_CONOCIDAS = {
+
+    "M-0001": "Pilates del Pino",
+
+}
+
+
+def cargar_marcas_conocidas():
+    """
+    Crea el maestro inicial de marcas conocidas.
+
+    Las marcas se incorporan manualmente para evitar
+    confundir el nombre comercial de una marca con
+    el nombre particular de cada estudio o sucursal.
+
+    Retorna
+    -------
+    DataFrame
+    """
+
+    marcas = pd.DataFrame(
+        [
+            {
+                "id_marca": id_marca,
+                "nombre_marca": nombre_marca,
+                "observaciones": ""
+            }
+            for id_marca, nombre_marca
+            in MARCAS_CONOCIDAS.items()
+        ]
+    )
+
+    return marcas
+
+
+# =====================================
+# RELACIÓN ESTUDIO - MARCA
+# =====================================
+
+def crear_relacion_estudio_marca():
+
+    relacion = pd.DataFrame({
+
+        "id_estudio": [
+            "EST-0077",
+            "EST-0112",
+        ],
+
+        "id_marca": [
+            "M-0001",
+            "M-0001",
+        ],
+
+    })
+
+    return relacion
+
+
+# =====================================
+# GUARDAR RELACIÓN ESTUDIO - MARCA
+# =====================================
+
+def guardar_relacion_estudio_marca(relacion):
+
+    ruta = "data/processed/estudios_marcas.csv"
+
+    relacion.to_csv(
+        ruta,
+        index=False,
+        encoding="utf-8-sig"
+    )
+
+    print(
+        f"\nRelación estudio-marca guardada en:\n{ruta}"
+    )
+
+
+# =====================================
+# COMUNA
 # =====================================
 
 def crear_comuna(df):
@@ -159,6 +338,11 @@ def crear_comuna(df):
 
     return df
 
+
+# =====================================
+# ZONA
+# =====================================
+
 def crear_zona(df):
     """
     Variable:
@@ -181,6 +365,7 @@ def crear_zona(df):
     )
 
     return df
+
 
 # =====================================
 # PRESENCIA DIGITAL
@@ -205,13 +390,21 @@ def crear_presencia_digital(df):
         para cada estudio.
     """
 
-    df["tiene_instagram"] = df["instagram"].notna()
+    df["tiene_instagram"] = (
+        df["instagram"].notna()
+    )
 
-    df["tiene_web"] = df["web"].notna()
+    df["tiene_web"] = (
+        df["web"].notna()
+    )
 
-    df["tiene_email"] = df["email"].notna()
+    df["tiene_email"] = (
+        df["email"].notna()
+    )
 
-    df["tiene_app"] = df["app"].notna()
+    df["tiene_app"] = (
+        df["app"].notna()
+    )
 
     df["presencia_digital"] = (
 
@@ -224,13 +417,15 @@ def crear_presencia_digital(df):
         + df["tiene_app"].astype(int)
 
     )
-        
+
     df["presencia_digital"] = (
-            df["presencia_digital"]
-            .astype("Int64")
-        )
+        df["presencia_digital"]
+        .astype("Int64")
+    )
 
     return df
+
+
 # =====================================
 # CANALES DE CONTACTO
 # =====================================
@@ -288,6 +483,7 @@ def crear_canales_contacto(df):
 
     return df
 
+
 # =====================================
 # NÚMERO DE FABRICANTES
 # =====================================
@@ -310,7 +506,9 @@ def crear_n_fabricantes(df):
 
     df["n_fabricantes"] = 0
 
-    tiene_fabricante = df["fabricantes_ref"].notna()
+    tiene_fabricante = (
+        df["fabricantes_ref"].notna()
+    )
 
     df.loc[
         tiene_fabricante,
@@ -330,6 +528,7 @@ def crear_n_fabricantes(df):
     )
 
     return df
+
 
 # =====================================
 # FABRICANTE MÚLTIPLE
@@ -356,7 +555,7 @@ def crear_fabricante_multiple(df):
 
 
 # =====================================
-# EXPLORARACION
+# EXPLORACIÓN
 # =====================================
 
 def explorar_comunas(df):
@@ -380,7 +579,8 @@ def explorar_comunas(df):
         f"Registros sin comuna: "
         f"{df['comuna'].isna().sum()}"
     )
-    
+
+
 def explorar_zonas(df):
 
     print("\n==============================")
@@ -400,7 +600,8 @@ def explorar_zonas(df):
     print(
         f"Registros sin zona: "
         f"{df['zona'].isna().sum()}"
-    )  
+    )
+
 
 def explorar_presencia_digital(df):
 
@@ -408,9 +609,11 @@ def explorar_presencia_digital(df):
     print(" ÍNDICE DE PRESENCIA DIGITAL")
     print("==============================\n")
 
-    print(df["presencia_digital"]
-          .value_counts()
-          .sort_index())
+    print(
+        df["presencia_digital"]
+        .value_counts()
+        .sort_index()
+    )
 
     print(
         f"\nPromedio: "
@@ -426,6 +629,8 @@ def explorar_presencia_digital(df):
         f"Estudios con presencia completa: "
         f"{(df['presencia_digital'] == 4).sum()}"
     )
+
+
 def explorar_canales_contacto(df):
 
     print("\n==============================")
@@ -447,7 +652,7 @@ def explorar_canales_contacto(df):
         f"Máximo: "
         f"{df['n_canales_contacto'].max()}"
     )
-         
+
 
 def explorar_fabricantes(df):
 
@@ -466,7 +671,8 @@ def explorar_fabricantes(df):
     print(
         df["fabricante_multiple"]
         .value_counts()
-    ) 
+    )
+
 
 # =====================================
 # GUARDAR
@@ -482,7 +688,66 @@ def guardar_datos(df):
         encoding="utf-8-sig"
     )
 
-    print(f"\nArchivo guardado en:\n{ruta}")
+    print(
+        f"\nArchivo guardado en:\n{ruta}"
+    )
+
+
+# =====================================
+# DETECTAR POSIBLES MARCAS
+# =====================================
+
+def detectar_posibles_marcas(df):
+    """
+    Detecta estudios con nombres idénticos
+    como candidatos a pertenecer a una misma marca.
+
+    No realiza ninguna asignación automática.
+
+    Retorna
+    -------
+    DataFrame
+    """
+
+    columnas = [
+        "id_estudio",
+        "nombre_del_estudio",
+    ]
+
+    if "direccion" in df.columns:
+        columnas.append("direccion")
+
+    candidatos = df[columnas].copy()
+
+    candidatos["nombre_normalizado"] = (
+        candidatos["nombre_del_estudio"]
+        .fillna("")
+        .str.lower()
+        .str.strip()
+    )
+
+    frecuencia = (
+        candidatos["nombre_normalizado"]
+        .value_counts()
+    )
+
+    candidatos["cantidad_mismo_nombre"] = (
+        candidatos["nombre_normalizado"]
+        .map(frecuencia)
+    )
+
+    candidatos = candidatos[
+        candidatos["cantidad_mismo_nombre"] > 1
+    ].copy()
+
+    candidatos = candidatos.sort_values(
+        [
+            "nombre_normalizado",
+            "id_estudio"
+        ]
+    )
+
+    return candidatos
 
 
 # =====================================
@@ -493,31 +758,146 @@ def main():
 
     df = cargar_datos()
 
-    # Geografía
+    # =================================
+    # IDENTIFICACIÓN DEL ESTUDIO
+    # =================================
+
+    # El ID se conserva si ya existe.
+    # Solo se genera cuando todavía no existe.
+
+    if "id_estudio" not in df.columns:
+
+        df["id_estudio"] = [
+            f"EST-{i:04d}"
+            for i in range(1, len(df) + 1)
+        ]
+
+    # =================================
+    # DETECCIÓN DE POSIBLES MARCAS
+    # =================================
+
+    candidatos_marcas = detectar_posibles_marcas(df)
+
+    pd.set_option(
+        "display.max_columns",
+        None
+    )
+
+    pd.set_option(
+        "display.max_colwidth",
+        100
+    )
+
+    pd.set_option(
+        "display.width",
+        200
+    )
+
+    print("\n=====================================")
+    print(" CANDIDATOS A MARCA")
+    print("=====================================\n")
+
+    print(
+        candidatos_marcas[
+            [
+                "id_estudio",
+                "nombre_del_estudio",
+                "direccion",
+                "nombre_normalizado",
+                "cantidad_mismo_nombre"
+            ]
+        ].to_string(index=False)
+    )
+
+    # =================================
+    # ESTUDIOS PILATES DEL PINO
+    # =================================
+
+    print("\n=====================================")
+    print(" ESTUDIOS PILATES DEL PINO")
+    print("=====================================\n")
+
+    print(
+        df[
+            df["nombre_del_estudio"].str.contains(
+                "pino",
+                case=False,
+                na=False
+            )
+        ][
+            [
+                "id_estudio",
+                "nombre_del_estudio"
+            ]
+        ]
+    )
+
+    # =================================
+    # MAESTRO DE MARCAS
+    # =================================
+
+    marcas = cargar_marcas_conocidas()
+
+    relacion_estudio_marca = (
+        crear_relacion_estudio_marca()
+    )
+
+    guardar_relacion_estudio_marca(
+        relacion_estudio_marca
+    )
+
+    print("\n=====================================")
+    print(" MAESTRO DE MARCAS")
+    print("=====================================\n")
+
+    print(marcas)
+
+    # =================================
+    # GEOGRAFÍA
+    # =================================
+
     df = crear_comuna(df)
     df = crear_zona(df)
 
-    # Digital
+    # =================================
+    # DIGITAL
+    # =================================
+
     df = crear_presencia_digital(df)
 
-    # Contacto
+    # =================================
+    # CONTACTO
+    # =================================
+
     df = crear_canales_contacto(df)
 
-    # Equipamiento
+    # =================================
+    # EQUIPAMIENTO
+    # =================================
 
     df = crear_n_fabricantes(df)
     df = crear_fabricante_multiple(df)
 
-    # Exploración
+    # =================================
+    # EXPLORACIÓN
+    # =================================
+
     explorar_comunas(df)
     explorar_zonas(df)
     explorar_presencia_digital(df)
     explorar_canales_contacto(df)
     explorar_fabricantes(df)
 
+    # =================================
+    # GUARDAR FEATURES
+    # =================================
+
     guardar_datos(df)
-    
+
+
+# =====================================
+# EJECUCIÓN
+# =====================================
 
 if __name__ == "__main__":
-
     main()

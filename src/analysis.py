@@ -1,663 +1,1457 @@
-#analysis.py
 # =====================================
 # OBSERVATORIO PILATES
-# ANALYSIS
+# =====================================
+#
+# Módulo: analysis.py
+#
+# Analiza las variables derivadas por features.py.
+#
+# Entrada:
+#   data/processed/estudios_features.csv
+#
+# Salidas:
+#   data/analysis/
+#
+# Principios:
+# - No modifica los datos originales.
+# - No crea nuevas variables permanentes en el dataset.
+# - Todos los análisis son reproducibles.
+# - Los porcentajes se calculan sobre el total de estudios.
+# - Los rankings permiten identificar casos destacados.
+# - Los cruces permiten estudiar relaciones entre territorio,
+#   presencia digital, visibilidad y desarrollo digital.
+#
 # =====================================
 
-"""
-OBSERVATORIO PILATES
-
-Módulo: analysis.py
-
-Este módulo transforma las variables analíticas
-generadas por features.py en indicadores,
-tablas y resultados interpretables.
-
-Entrada:
-    data/processed/estudios_features.csv
-
-Salida:
-    Tablas analíticas
-    Indicadores
-    Reportes
-
-Principios
-----------
-
-- Nunca modifica los datos.
-- Todos los análisis parten de preguntas.
-- Todos los resultados son reproducibles.
-- No contiene reglas de limpieza.
-- No contiene ingeniería de variables.
-
-Bloques implementados
----------------------
-
-□ Territorio
-□ Digitalización
-□ Contactabilidad
-□ Equipamiento
-□ Cruces
-
-Próximas etapas
----------------
-
-□ Visualizaciones
-□ Mapas
-□ Exportación automática
-□ Dashboard
-"""
+import os
 import pandas as pd
-from pathlib import Path
+import numpy as np
+
+
 # =====================================
-# PARÁMETROS DEL MOTOR ESTRATÉGICO
+# CONFIGURACIÓN
 # =====================================
 
-# Índice de Visibilidad
-# Prioriza alcance digital y capacidad de ser encontrado.
+RUTA_ENTRADA = (
+    "data/processed/estudios_features.csv"
+)
 
-PESO_VIS_SEGUIDORES = 0.45
-PESO_VIS_PRESENCIA = 0.30
-PESO_VIS_CONTACTO = 0.15
-PESO_VIS_WEB = 0.10
-
-
-# Índice de Desarrollo Digital
-# Evalúa el grado de madurez digital del estudio.
-
-PESO_DES_PRESENCIA = 0.40
-PESO_DES_CONTACTO = 0.30
-PESO_DES_APP = 0.20
-PESO_DES_WEB = 0.10
+RUTA_SALIDA = (
+    "data/analysis"
+)
 
 
-# Índice de Competitividad
-# Combina reputación, visibilidad, desarrollo y equipamiento.
-
-PESO_COMP_REPUTACION = 0.40
-PESO_COMP_VISIBILIDAD = 0.25
-PESO_COMP_DESARROLLO = 0.20
-PESO_COMP_EQUIPAMIENTO = 0.15
 # =====================================
 # CARGA
 # =====================================
+
 def cargar_datos():
-    """
-    Carga el dataset analítico generado por
-    features.py.
 
-    Entrada:
-        data/processed/estudios_features.csv
-
-    Retorna
-    -------
-    pandas.DataFrame
-    """
-
-    return pd.read_csv(
-        "data/processed/estudios_features.csv"
+    df = pd.read_csv(
+        RUTA_ENTRADA
     )
+
+    print("\n=====================================")
+    print(" DATOS CARGADOS")
+    print("=====================================\n")
+
+    print(
+        f"Registros: {len(df)}"
+    )
+
+    print(
+        f"Columnas: {len(df.columns)}"
+    )
+
+    return df
+
+
 # =====================================
-# ANÁLISIS TERRITORIAL
-# BARRIOS
+# PREPARACIÓN
+# =====================================
+
+def preparar_datos(df):
+
+    df = df.copy()
+
+    columnas_numericas = [
+        "seguidores_instagram",
+        "puntaje_google",
+        "cantidad_resenas",
+        "presencia_digital",
+        "n_canales_contacto",
+        "n_fabricantes",
+        "indice_visibilidad",
+        "indice_desarrollo_digital",
+    ]
+
+    for columna in columnas_numericas:
+
+        if columna in df.columns:
+
+            df[columna] = pd.to_numeric(
+                df[columna],
+                errors="coerce"
+            )
+
+    return df
+
+
+# =====================================
+# CREAR DIRECTORIO DE SALIDA
+# =====================================
+
+def crear_directorio_salida():
+
+    os.makedirs(
+        RUTA_SALIDA,
+        exist_ok=True
+    )
+
+
+# =====================================
+# UTILIDAD:
+# PORCENTAJES
+# =====================================
+
+def agregar_porcentaje(tabla, columna="estudios"):
+
+    tabla = tabla.copy()
+
+    total = tabla[columna].sum()
+
+    if total == 0:
+
+        tabla["porcentaje"] = 0.0
+
+    else:
+
+        tabla["porcentaje"] = (
+            tabla[columna] / total * 100
+        ).round(2)
+
+    return tabla
+
+
+# =====================================
+# UTILIDAD:
+# GUARDAR TABLA
+# =====================================
+
+def guardar_tabla(
+    tabla,
+    nombre_archivo
+):
+
+    ruta = os.path.join(
+        RUTA_SALIDA,
+        nombre_archivo
+    )
+
+    tabla.to_csv(
+        ruta,
+        index=False,
+        encoding="utf-8-sig"
+    )
+
+    print(
+        f"\nArchivo guardado:\n{ruta}"
+    )
+
+
+# =====================================
+# RESUMEN GENERAL
+# =====================================
+
+def analizar_resumen_general(df):
+
+    cantidad_estudios = len(df)
+
+    con_puntaje = (
+        df["puntaje_google"]
+        .notna()
+        .sum()
+    )
+
+    sin_puntaje = (
+        df["puntaje_google"]
+        .isna()
+        .sum()
+    )
+
+    puntaje_promedio = (
+        df["puntaje_google"]
+        .mean()
+    )
+
+    puntaje_minimo = (
+        df["puntaje_google"]
+        .min()
+    )
+
+    puntaje_maximo = (
+        df["puntaje_google"]
+        .max()
+    )
+
+    con_resenas = (
+        df["cantidad_resenas"]
+        .notna()
+        .sum()
+    )
+
+    promedio_resenas = (
+        df["cantidad_resenas"]
+        .mean()
+    )
+
+    mediana_resenas = (
+        df["cantidad_resenas"]
+        .median()
+    )
+
+    maximo_resenas = (
+        df["cantidad_resenas"]
+        .max()
+    )
+
+    con_instagram = (
+        df["seguidores_instagram"]
+        .notna()
+        .sum()
+    )
+
+    promedio_seguidores = (
+        df["seguidores_instagram"]
+        .mean()
+    )
+
+    mediana_seguidores = (
+        df["seguidores_instagram"]
+        .median()
+    )
+
+    maximo_seguidores = (
+        df["seguidores_instagram"]
+        .max()
+    )
+
+    resumen = pd.DataFrame({
+
+        "indicador": [
+
+            "Cantidad de estudios",
+
+            "Con puntaje",
+
+            "Sin puntaje",
+
+            "Puntaje promedio",
+
+            "Puntaje mínimo",
+
+            "Puntaje máximo",
+
+            "Estudios con reseñas",
+
+            "Reseñas promedio",
+
+            "Mediana de reseñas",
+
+            "Máximo de reseñas",
+
+            "Con Instagram",
+
+            "Seguidores promedio",
+
+            "Mediana de seguidores",
+
+            "Máximo de seguidores",
+
+        ],
+
+        "valor": [
+
+            cantidad_estudios,
+
+            con_puntaje,
+
+            sin_puntaje,
+
+            puntaje_promedio,
+
+            puntaje_minimo,
+
+            puntaje_maximo,
+
+            con_resenas,
+
+            promedio_resenas,
+
+            mediana_resenas,
+
+            maximo_resenas,
+
+            con_instagram,
+
+            promedio_seguidores,
+
+            mediana_seguidores,
+
+            maximo_seguidores,
+
+        ]
+
+    })
+
+    resumen["valor"] = (
+        resumen["valor"]
+        .round(2)
+    )
+
+    print("\n=====================================")
+    print(" RESUMEN GENERAL")
+    print("=====================================\n")
+
+    print(
+        resumen.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        resumen,
+        "resumen_general.csv"
+    )
+
+    return resumen
+
+
+# =====================================
+# DISTRIBUCIÓN POR BARRIO
 # =====================================
 
 def analizar_barrios(df):
-    """
-    Genera la distribución de estudios
-    por barrio.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        barrio
-        estudios
-        porcentaje
-    """
 
     tabla = (
+
         df["barrio"]
-        .value_counts(dropna=False)
+
+        .fillna("Sin dato")
+
+        .value_counts()
+
         .rename_axis("barrio")
-        .reset_index(name="estudios")
+
+        .reset_index(
+            name="estudios"
+        )
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" DISTRIBUCIÓN POR BARRIO")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "distribucion_barrios.csv"
+    )
 
     return tabla
+
+
 # =====================================
-# COMUNAS
+# DISTRIBUCIÓN POR COMUNA
 # =====================================
 
 def analizar_comunas(df):
-    """
-    Genera la distribución de estudios
-    por comuna.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        comuna
-        estudios
-        porcentaje
-    """
 
     tabla = (
+
         df["comuna"]
-        .value_counts(dropna=False)
+
+        .fillna(-1)
+
+        .value_counts()
+
         .sort_index()
+
         .rename_axis("comuna")
-        .reset_index(name="estudios")
+
+        .reset_index(
+            name="estudios"
+        )
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
+    tabla["comuna"] = (
+        tabla["comuna"]
+        .replace(
+            -1,
+            np.nan
+        )
+    )
+
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" DISTRIBUCIÓN POR COMUNA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "distribucion_comunas.csv"
+    )
 
     return tabla
+
+
 # =====================================
-# ZONAS
+# DISTRIBUCIÓN POR ZONA
 # =====================================
 
 def analizar_zonas(df):
-    """
-    Genera indicadores territoriales por zona.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        zona
-        estudios
-        seguidores_promedio
-        puntaje_promedio
-        resenas_promedio
-        presencia_digital_media
-        canales_contacto_medios
-        porcentaje
-    """
 
     tabla = (
-        df.groupby("zona", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            seguidores_promedio=("seguidores", "mean"),
-            puntaje_promedio=("puntaje_google", "mean"),
-            resenas_promedio=("cantidad_resenas", "mean"),
-            presencia_digital_media=("presencia_digital", "mean"),
-            canales_contacto_medios=("n_canales_contacto", "mean"),
+
+        df["zona"]
+
+        .fillna("Sin dato")
+
+        .value_counts()
+
+        .rename_axis("zona")
+
+        .reset_index(
+            name="estudios"
         )
-        .round(2)
+
+    )
+
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" DISTRIBUCIÓN POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "distribucion_zonas.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# PERFIL TERRITORIAL POR ZONA
+# =====================================
+
+def analizar_perfil_zonal(df):
+
+    columnas = [
+        "zona",
+        "seguidores_instagram",
+        "puntaje_google",
+        "cantidad_resenas",
+        "presencia_digital",
+        "n_canales_contacto",
+    ]
+
+    disponibles = [
+        c for c in columnas
+        if c in df.columns
+    ]
+
+    tabla = (
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )[
+
+            disponibles[1:]
+
+        ]
+
+        .agg(
+            [
+                "mean"
+            ]
+        )
+
+    )
+
+    tabla.columns = [
+        "_".join(col).strip("_")
+        for col in tabla.columns
+    ]
+
+    tabla = (
+        tabla
         .reset_index()
+    )
+
+    conteos = (
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+        .size()
+        .reset_index(
+            name="estudios"
+        )
+    )
+
+    tabla = conteos.merge(
+        tabla,
+        on="zona",
+        how="left"
     )
 
     tabla["porcentaje"] = (
         tabla["estudios"]
-        / tabla["estudios"].sum()
+        / len(df)
         * 100
     ).round(2)
+
+    tabla = tabla.rename(
+        columns={
+
+            "seguidores_instagram_mean":
+                "seguidores_instagram_promedio",
+
+            "puntaje_google_mean":
+                "puntaje_promedio",
+
+            "cantidad_resenas_mean":
+                "resenas_promedio",
+
+            "presencia_digital_mean":
+                "presencia_digital_media",
+
+            "n_canales_contacto_mean":
+                "canales_contacto_medios",
+
+        }
+    )
 
     tabla = tabla.sort_values(
         "estudios",
         ascending=False
     )
 
+    print("\n=====================================")
+    print(" PERFIL POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "perfil_zonal.csv"
+    )
+
     return tabla
+
+
 # =====================================
 # PRESENCIA DIGITAL
 # =====================================
 
 def analizar_presencia_digital(df):
-    """
-    Genera la distribución de la presencia digital
-    de los estudios.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        presencia_digital
-        estudios
-        porcentaje
-    """
 
     tabla = (
-        df.groupby("presencia_digital", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count")
+
+        df["presencia_digital"]
+
+        .value_counts()
+
+        .sort_index()
+
+        .rename_axis(
+            "presencia_digital"
         )
-        .reset_index()
-        .sort_values("presencia_digital")
+
+        .reset_index(
+            name="estudios"
+        )
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" PRESENCIA DIGITAL")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    print(
+        f"\nPromedio: "
+        f"{df['presencia_digital'].mean():.2f}"
+    )
+
+    print(
+        f"Máximo: "
+        f"{df['presencia_digital'].max()}"
+    )
+
+    print(
+        "Estudios con presencia completa: "
+        f"{(df['presencia_digital'] == 4).sum()}"
+    )
+
+    guardar_tabla(
+        tabla,
+        "presencia_digital.csv"
+    )
 
     return tabla
+
+
 # =====================================
 # CANALES DE CONTACTO
 # =====================================
 
 def analizar_canales_contacto(df):
-    """
-    Genera la distribución de los canales
-    de contacto disponibles.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        n_canales_contacto
-        estudios
-        porcentaje
-    """
 
     tabla = (
-        df.groupby("n_canales_contacto", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count")
+
+        df["n_canales_contacto"]
+
+        .value_counts()
+
+        .sort_index()
+
+        .rename_axis(
+            "n_canales_contacto"
         )
-        .reset_index()
-        .sort_values("n_canales_contacto")
+
+        .reset_index(
+            name="estudios"
+        )
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" CANALES DE CONTACTO")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    print(
+        f"\nPromedio: "
+        f"{df['n_canales_contacto'].mean():.2f}"
+    )
+
+    print(
+        f"Máximo: "
+        f"{df['n_canales_contacto'].max()}"
+    )
+
+    guardar_tabla(
+        tabla,
+        "canales_contacto.csv"
+    )
 
     return tabla
+
+
 # =====================================
-# ANÁLISIS DE EQUIPAMIENTO
-# =====================================
-# =====================================
-# NÚMERO DE FABRICANTES
+# FABRICANTES
 # =====================================
 
-def analizar_n_fabricantes(df):
-    """
-    Analiza la distribución de estudios
-    según la cantidad de fabricantes
-    registrados.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        n_fabricantes
-        estudios
-        porcentaje
-    """
+def analizar_fabricantes(df):
 
     tabla = (
-        df.groupby("n_fabricantes", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count")
+
+        df["n_fabricantes"]
+
+        .value_counts()
+
+        .sort_index()
+
+        .rename_axis(
+            "n_fabricantes"
         )
-        .reset_index()
-        .sort_values("n_fabricantes")
+
+        .reset_index(
+            name="estudios"
+        )
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
+    tabla = agregar_porcentaje(
+        tabla
+    )
+
+    print("\n=====================================")
+    print(" FABRICANTES")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "fabricantes.csv"
+    )
 
     return tabla
+
+
 # =====================================
-# FABRICANTES MÚLTIPLES
+# FABRICANTE MÚLTIPLE
 # =====================================
 
 def analizar_fabricante_multiple(df):
-    """
-    Analiza cuántos estudios utilizan
-    uno o más fabricantes.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        fabricante_multiple
-        estudios
-        porcentaje
-    """
 
     tabla = (
-        df.groupby("fabricante_multiple", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count")
+
+        df["fabricante_multiple"]
+
+        .value_counts()
+
+        .rename_axis(
+            "fabricante_multiple"
         )
-        .reset_index()
-    )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    return tabla
-# =====================================
-# ANÁLISIS DEL MERCADO
-# =====================================
-# =====================================
-# PUNTAJES
-# =====================================
-
-def analizar_puntajes(df):
-    """
-    Genera indicadores sobre las
-    valoraciones de Google.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        indicador
-        valor
-    """
-
-    tabla = pd.DataFrame({
-
-        "indicador": [
-
-            "Cantidad de estudios",
-            "Con puntaje",
-            "Sin puntaje",
-            "Puntaje promedio",
-            "Puntaje mínimo",
-            "Puntaje máximo"
-
-        ],
-
-        "valor": [
-
-            len(df),
-            df["puntaje_google"].notna().sum(),
-            df["puntaje_google"].isna().sum(),
-            round(df["puntaje_google"].mean(), 2),
-            df["puntaje_google"].min(),
-            df["puntaje_google"].max()
-
-        ]
-
-    })
-
-    return tabla
-# =====================================
-# RESEÑAS
-# =====================================
-
-def analizar_resenas(df):
-    """
-    Genera indicadores sobre las
-    reseñas registradas.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    tabla = pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Mediana",
-            "Máximo",
-            "Estudios con reseñas"
-
-        ],
-
-        "valor": [
-
-            round(df["cantidad_resenas"].mean(), 1),
-            df["cantidad_resenas"].median(),
-            df["cantidad_resenas"].max(),
-            (df["cantidad_resenas"] > 0).sum()
-
-        ]
-
-    })
-
-    return tabla
-# =====================================
-# SEGUIDORES
-# =====================================
-
-def analizar_seguidores(df):
-    """
-    Genera indicadores sobre los
-    seguidores de Instagram.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    tabla = pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Mediana",
-            "Máximo",
-            "Con Instagram"
-
-        ],
-
-        "valor": [
-
-            round(df["seguidores"].mean(), 1),
-            df["seguidores"].median(),
-            df["seguidores"].max(),
-            df["seguidores"].notna().sum()
-
-        ]
-
-    })
-
-    return tabla
-# =====================================
-# CRUCES
-# =====================================
-# =====================================
-# ZONA vs PRESENCIA DIGITAL
-# =====================================
-
-def analizar_zona_vs_presencia(df):
-    """
-    Analiza la presencia digital de los
-    estudios según la zona.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        zona
-        estudios
-        presencia_digital_media
-        seguidores_promedio
-        porcentaje
-    """
-
-    tabla = (
-        df.groupby("zona", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            presencia_digital_media=("presencia_digital", "mean"),
-            seguidores_promedio=("seguidores", "mean"),
+        .reset_index(
+            name="estudios"
         )
-        .round(2)
-        .reset_index()
+
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    tabla = tabla.sort_values(
-        "presencia_digital_media",
-        ascending=False
+    tabla = agregar_porcentaje(
+        tabla
     )
 
-    return tabla
-# =====================================
-# ZONA vs CANALES DE CONTACTO
-# =====================================
+    print("\n=====================================")
+    print(" FABRICANTE MÚLTIPLE")
+    print("=====================================\n")
 
-def analizar_zona_vs_contacto(df):
-    """
-    Analiza los canales de contacto disponibles
-    según la zona.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        zona
-        estudios
-        canales_contacto_medios
-        presencia_digital_media
-        porcentaje
-    """
-
-    tabla = (
-        df.groupby("zona", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            canales_contacto_medios=("n_canales_contacto", "mean"),
-            presencia_digital_media=("presencia_digital", "mean"),
+    print(
+        tabla.to_string(
+            index=False
         )
-        .round(2)
-        .reset_index()
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    tabla = tabla.sort_values(
-        "canales_contacto_medios",
-        ascending=False
+    guardar_tabla(
+        tabla,
+        "fabricante_multiple.csv"
     )
 
     return tabla
+
+
 # =====================================
-# ZONA vs FABRICANTES
+# FABRICANTES POR ZONA
 # =====================================
 
-def analizar_zona_vs_fabricantes(df):
-    """
-    Analiza el equipamiento utilizado
-    según la zona.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        zona
-        estudios
-        fabricantes_promedio
-        porcentaje_fabricante_multiple
-        porcentaje
-    """
+def analizar_fabricantes_por_zona(df):
 
     tabla = (
-        df.groupby("zona", dropna=False)
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+
         .agg(
-            estudios=("nombre_del_estudio", "count"),
-            fabricantes_promedio=("n_fabricantes", "mean"),
-            porcentaje_fabricante_multiple=(
-                "fabricante_multiple",
+
+            estudios=(
+                "id_estudio",
+                "count"
+            ),
+
+            fabricantes_promedio=(
+                "n_fabricantes",
                 "mean"
             ),
+
+            porcentaje_fabricante_multiple=(
+                "fabricante_multiple",
+                lambda x:
+                x.mean() * 100
+            )
+
         )
-        .round(2)
+
         .reset_index()
+
     )
 
-    tabla["porcentaje_fabricante_multiple"] = (
-        tabla["porcentaje_fabricante_multiple"] * 100
-    ).round(2)
+    tabla["fabricantes_promedio"] = (
+        tabla["fabricantes_promedio"]
+        .round(2)
+    )
+
+    tabla[
+        "porcentaje_fabricante_multiple"
+    ] = (
+        tabla[
+            "porcentaje_fabricante_multiple"
+        ]
+        .round(2)
+    )
 
     tabla["porcentaje"] = (
         tabla["estudios"]
-        / tabla["estudios"].sum()
+        / len(df)
         * 100
     ).round(2)
 
-    tabla = tabla.sort_values(
-        "fabricantes_promedio",
-        ascending=False
+    print("\n=====================================")
+    print(" FABRICANTES POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "fabricantes_por_zona.csv"
     )
 
     return tabla
+
+
 # =====================================
-# ZONA vs MERCADO
+# PERFIL DIGITAL POR ZONA
 # =====================================
 
-def analizar_zona_vs_mercado(df):
-    """
-    Analiza los principales indicadores
-    del mercado según la zona.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        zona
-        estudios
-        seguidores_promedio
-        puntaje_promedio
-        resenas_promedio
-        porcentaje
-    """
+def analizar_digital_por_zona(df):
 
     tabla = (
-        df.groupby("zona", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            seguidores_promedio=("seguidores", "mean"),
-            puntaje_promedio=("puntaje_google", "mean"),
-            resenas_promedio=("cantidad_resenas", "mean"),
+
+        df.groupby(
+            "zona",
+            dropna=False
         )
-        .round(2)
+
+        .agg(
+
+            estudios=(
+                "id_estudio",
+                "count"
+            ),
+
+            presencia_digital_media=(
+                "presencia_digital",
+                "mean"
+            ),
+
+            seguidores_instagram_promedio=(
+                "seguidores_instagram",
+                "mean"
+            ),
+
+        )
+
         .reset_index()
+
+    )
+
+    tabla["presencia_digital_media"] = (
+        tabla["presencia_digital_media"]
+        .round(2)
+    )
+
+    tabla[
+        "seguidores_instagram_promedio"
+    ] = (
+        tabla[
+            "seguidores_instagram_promedio"
+        ]
+        .round(2)
     )
 
     tabla["porcentaje"] = (
         tabla["estudios"]
-        / tabla["estudios"].sum()
+        / len(df)
+        * 100
+    ).round(2)
+
+    print("\n=====================================")
+    print(" PERFIL DIGITAL POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "digital_por_zona.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# CONTACTO Y DIGITAL POR ZONA
+# =====================================
+
+def analizar_contacto_digital_por_zona(df):
+
+    tabla = (
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+
+        .agg(
+
+            estudios=(
+                "id_estudio",
+                "count"
+            ),
+
+            canales_contacto_medios=(
+                "n_canales_contacto",
+                "mean"
+            ),
+
+            presencia_digital_media=(
+                "presencia_digital",
+                "mean"
+            ),
+
+        )
+
+        .reset_index()
+
+    )
+
+    tabla[
+        "canales_contacto_medios"
+    ] = (
+        tabla[
+            "canales_contacto_medios"
+        ]
+        .round(2)
+    )
+
+    tabla[
+        "presencia_digital_media"
+    ] = (
+        tabla[
+            "presencia_digital_media"
+        ]
+        .round(2)
+    )
+
+    tabla["porcentaje"] = (
+        tabla["estudios"]
+        / len(df)
+        * 100
+    ).round(2)
+
+    print("\n=====================================")
+    print(" CONTACTO Y DIGITAL POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "contacto_digital_por_zona.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# ÍNDICE DE VISIBILIDAD
+# =====================================
+
+def analizar_visibilidad(df):
+
+    columna = "indice_visibilidad"
+
+    if columna not in df.columns:
+
+        print(
+            "\nNo existe "
+            f"'{columna}'. "
+            "Se omite el análisis."
+        )
+
+        return None
+
+    valores = df[columna].dropna()
+
+    resumen = pd.DataFrame({
+
+        "indicador": [
+
+            "Promedio",
+
+            "Desvío estándar",
+
+            "Mediana",
+
+            "Percentil 25",
+
+            "Percentil 75",
+
+        ],
+
+        "valor": [
+
+            valores.mean(),
+
+            valores.std(),
+
+            valores.median(),
+
+            valores.quantile(0.25),
+
+            valores.quantile(0.75),
+
+        ]
+
+    })
+
+    resumen["valor"] = (
+        resumen["valor"]
+        .round(3)
+    )
+
+    niveles = (
+
+        df["nivel_visibilidad"]
+
+        .value_counts()
+
+        .rename_axis("nivel")
+
+        .reset_index(
+            name="estudios"
+        )
+
+    )
+
+    niveles = agregar_porcentaje(
+        niveles
+    )
+
+    print("\n=====================================")
+    print(" ÍNDICE DE VISIBILIDAD")
+    print("=====================================\n")
+
+    print(
+        resumen.to_string(
+            index=False
+        )
+    )
+
+    print("\nNiveles:")
+
+    print(
+        niveles.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        resumen,
+        "visibilidad_resumen.csv"
+    )
+
+    guardar_tabla(
+        niveles,
+        "visibilidad_niveles.csv"
+    )
+
+    return resumen
+
+
+# =====================================
+# DESARROLLO DIGITAL
+# =====================================
+
+def analizar_desarrollo_digital(df):
+
+    columna = (
+        "indice_desarrollo_digital"
+    )
+
+    if columna not in df.columns:
+
+        print(
+            "\nNo existe "
+            f"'{columna}'. "
+            "Se omite el análisis."
+        )
+
+        return None
+
+    valores = df[columna].dropna()
+
+    resumen = pd.DataFrame({
+
+        "indicador": [
+
+            "Promedio",
+
+            "Desvío estándar",
+
+            "Mediana",
+
+            "Percentil 25",
+
+            "Percentil 75",
+
+        ],
+
+        "valor": [
+
+            valores.mean(),
+
+            valores.std(),
+
+            valores.median(),
+
+            valores.quantile(0.25),
+
+            valores.quantile(0.75),
+
+        ]
+
+    })
+
+    resumen["valor"] = (
+        resumen["valor"]
+        .round(3)
+    )
+
+    niveles = (
+
+        df["nivel_desarrollo_digital"]
+
+        .value_counts()
+
+        .rename_axis("nivel")
+
+        .reset_index(
+            name="estudios"
+        )
+
+    )
+
+    niveles = agregar_porcentaje(
+        niveles
+    )
+
+    print("\n=====================================")
+    print(" DESARROLLO DIGITAL")
+    print("=====================================\n")
+
+    print(
+        resumen.to_string(
+            index=False
+        )
+    )
+
+    print("\nNiveles:")
+
+    print(
+        niveles.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        resumen,
+        "desarrollo_digital_resumen.csv"
+    )
+
+    guardar_tabla(
+        niveles,
+        "desarrollo_digital_niveles.csv"
+    )
+
+    return resumen
+
+
+# =====================================
+# VISIBILIDAD POR ZONA
+# =====================================
+
+def analizar_visibilidad_por_zona(df):
+
+    if "indice_visibilidad" not in df.columns:
+
+        return None
+
+    tabla = (
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+
+        .agg(
+
+            estudios=(
+                "id_estudio",
+                "count"
+            ),
+
+            visibilidad_promedio=(
+                "indice_visibilidad",
+                "mean"
+            )
+
+        )
+
+        .reset_index()
+
+    )
+
+    tabla[
+        "visibilidad_promedio"
+    ] = (
+        tabla[
+            "visibilidad_promedio"
+        ]
+        .round(3)
+    )
+
+    tabla["porcentaje"] = (
+        tabla["estudios"]
+        / len(df)
+        * 100
+    ).round(2)
+
+    print("\n=====================================")
+    print(" VISIBILIDAD POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "visibilidad_por_zona.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# DESARROLLO DIGITAL POR ZONA
+# =====================================
+
+def analizar_desarrollo_por_zona(df):
+
+    if (
+        "indice_desarrollo_digital"
+        not in df.columns
+    ):
+
+        return None
+
+    tabla = (
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+
+        .agg(
+
+            estudios=(
+                "id_estudio",
+                "count"
+            ),
+
+            desarrollo_digital_promedio=(
+                "indice_desarrollo_digital",
+                "mean"
+            )
+
+        )
+
+        .reset_index()
+
+    )
+
+    tabla[
+        "desarrollo_digital_promedio"
+    ] = (
+        tabla[
+            "desarrollo_digital_promedio"
+        ]
+        .round(3)
+    )
+
+    tabla["porcentaje"] = (
+        tabla["estudios"]
+        / len(df)
+        * 100
+    ).round(2)
+
+    print("\n=====================================")
+    print(" DESARROLLO DIGITAL POR ZONA")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "desarrollo_digital_por_zona.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# PERFIL COMPLETO POR ZONA
+# =====================================
+
+def analizar_zona_completa(df):
+
+    columnas = [
+
+        "seguidores_instagram",
+
+        "puntaje_google",
+
+        "cantidad_resenas",
+
+        "presencia_digital",
+
+        "n_canales_contacto",
+
+        "n_fabricantes",
+
+        "indice_visibilidad",
+
+        "indice_desarrollo_digital",
+
+    ]
+
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
+
+    agregaciones = {
+
+        "estudios": (
+            "id_estudio",
+            "count"
+        )
+
+    }
+
+    for columna in columnas:
+
+        agregaciones[
+            f"{columna}_promedio"
+        ] = (
+            columna,
+            "mean"
+        )
+
+    tabla = (
+
+        df.groupby(
+            "zona",
+            dropna=False
+        )
+
+        .agg(
+            **agregaciones
+        )
+
+        .reset_index()
+
+    )
+
+    for columna in tabla.columns:
+
+        if (
+            columna.endswith(
+                "_promedio"
+            )
+        ):
+
+            tabla[columna] = (
+                tabla[columna]
+                .round(3)
+            )
+
+    tabla["porcentaje"] = (
+        tabla["estudios"]
+        / len(df)
         * 100
     ).round(2)
 
@@ -666,428 +1460,314 @@ def analizar_zona_vs_mercado(df):
         ascending=False
     )
 
-    return tabla
-# =====================================
-# PRESENCIA DIGITAL vs MERCADO
-# =====================================
+    print("\n=====================================")
+    print(" PERFIL COMPLETO POR ZONA")
+    print("=====================================\n")
 
-def analizar_presencia_vs_mercado(df):
-    """
-    Analiza la relación entre la presencia
-    digital y los principales indicadores
-    del mercado.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        presencia_digital
-        estudios
-        seguidores_promedio
-        puntaje_promedio
-        resenas_promedio
-        porcentaje
-    """
-
-    tabla = (
-        df.groupby("presencia_digital", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            seguidores_promedio=("seguidores", "mean"),
-            puntaje_promedio=("puntaje_google", "mean"),
-            resenas_promedio=("cantidad_resenas", "mean"),
+    print(
+        tabla.to_string(
+            index=False
         )
-        .round(2)
-        .reset_index()
     )
 
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    tabla = tabla.sort_values("presencia_digital")
+    guardar_tabla(
+        tabla,
+        "perfil_completo_zona.csv"
+    )
 
     return tabla
-# =====================================
-# FABRICANTES vs MERCADO
-# =====================================
 
-def analizar_fabricantes_vs_mercado(df):
-    """
-    Analiza los principales indicadores
-    del mercado según el uso de uno o
-    varios fabricantes.
-
-    Retorna
-    -------
-    DataFrame
-
-    Columnas:
-        fabricante_multiple
-        estudios
-        seguidores_promedio
-        puntaje_promedio
-        resenas_promedio
-        porcentaje
-    """
-
-    tabla = (
-        df.groupby("fabricante_multiple", dropna=False)
-        .agg(
-            estudios=("nombre_del_estudio", "count"),
-            seguidores_promedio=("seguidores", "mean"),
-            puntaje_promedio=("puntaje_google", "mean"),
-            resenas_promedio=("cantidad_resenas", "mean"),
-        )
-        .round(2)
-        .reset_index()
-    )
-
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    return tabla
-# =====================================
-# INDICADORES COMPUESTOS
-# =====================================
-def normalizar_0_1(serie):
-    """
-    Normaliza una serie numérica
-    utilizando Min-Max Scaling.
-
-    Retorna
-    -------
-    pandas.Series
-    """
-
-    minimo = serie.min()
-    maximo = serie.max()
-
-    if maximo == minimo:
-        return pd.Series(0, index=serie.index)
-
-    return (serie - minimo) / (maximo - minimo)
-
-
-def analizar_nivel_visibilidad(df):
-    """
-    Distribución de estudios según
-    el nivel de visibilidad.
-    """
-
-    tabla = (
-        df["nivel_visibilidad"]
-        .value_counts()
-        .rename_axis("nivel")
-        .reset_index(name="estudios")
-    )
-
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    return tabla
-def resumen_indice_visibilidad(df):
-
-    return pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Desvío estándar",
-            "Mediana",
-            "Percentil 25",
-            "Percentil 75"
-
-        ],
-
-        "valor": [
-
-            round(df["indice_visibilidad"].mean(), 3),
-
-            round(df["indice_visibilidad"].std(), 3),
-
-            round(df["indice_visibilidad"].median(), 3),
-
-            round(df["indice_visibilidad"].quantile(.25), 3),
-
-            round(df["indice_visibilidad"].quantile(.75), 3)
-
-        ]
-
-    })
-    
-# =====================================
-# ÍNDICE DE VISIBILIDAD
-# =====================================
-
-def calcular_indice_visibilidad(df):
-    """
-    Calcula el índice de visibilidad.
-    """
-
-    seguidores = (
-        df["seguidores"]
-        .fillna(0)
-        .rank(pct=True)
-    )
-
-    presencia = (
-        df["presencia_digital"]
-        .fillna(0) / 4
-    )
-
-    contacto = (
-        df["n_canales_contacto"]
-        .fillna(0) / 4
-    )
-
-    web = (
-        df["tiene_web"]
-        .fillna(0)
-    )
-
-    df["indice_visibilidad"] = (
-        seguidores * PESO_VIS_SEGUIDORES +
-        presencia * PESO_VIS_PRESENCIA +
-        contacto * PESO_VIS_CONTACTO +
-        web * PESO_VIS_WEB
-
-    ).round(3)
-
-    df["nivel_visibilidad"] = (
-        df["indice_visibilidad"]
-        .apply(clasificar_visibilidad)
-    )
-
-    return df
 
 # =====================================
-# NIVELES DE VISIBILIDAD
+# RANKING DE INSTAGRAM
 # =====================================
 
-def clasificar_visibilidad(indice):
+def ranking_instagram(
+    df,
+    n=20
+):
 
-    if indice < 0.25:
-        return "Muy baja"
+    columnas = [
+        "id_estudio",
+        "nombre_del_estudio",
+        "seguidores_instagram",
+        "barrio",
+        "zona",
+    ]
 
-    elif indice < 0.50:
-        return "Baja"
-
-    elif indice < 0.75:
-        return "Alta"
-
-    return "Muy alta"
-# =====================================
-# ÍNDICE DE DESARROLLO DIGITAL
-# =====================================
-
-def calcular_indice_desarrollo_digital(df):
-    """
-    Calcula el índice de desarrollo digital.
-
-    El índice combina:
-
-    - presencia digital
-    - canales de contacto
-    - sitio web
-    - app
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    presencia = (
-        df["presencia_digital"]
-        .fillna(0) / 4
-    )
-
-    contacto = (
-        df["n_canales_contacto"]
-        .fillna(0) / 4
-    )
-
-    web = (
-        df["tiene_web"]
-        .fillna(0)
-    )
-
-    app = (
-        df["tiene_app"]
-        .fillna(0)
-    )
-
-    df["indice_desarrollo_digital"] = (
-        presencia * PESO_DES_PRESENCIA +
-        contacto * PESO_DES_CONTACTO +
-        app * PESO_DES_APP +
-        web * PESO_DES_WEB
-    ).round(3)
-
-    return df
-
-# =====================================
-# CLASIFICACIÓN DEL DESARROLLO DIGITAL
-# =====================================
-
-def clasificar_desarrollo(indice):
-    """
-    Clasifica el índice de desarrollo digital.
-
-    Retorna
-    -------
-    str
-    """
-
-    if indice < 0.25:
-        return "Muy bajo"
-
-    elif indice < 0.50:
-        return "Bajo"
-
-    elif indice < 0.75:
-        return "Alto"
-
-    return "Muy alto"
-
-# =====================================
-# DISTRIBUCIÓN DEL DESARROLLO DIGITAL
-# =====================================
-
-def analizar_desarrollo_digital(df):
-    """
-    Distribución de estudios según
-    el nivel de desarrollo digital.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    df["nivel_desarrollo_digital"] = (
-        df["indice_desarrollo_digital"]
-        .apply(clasificar_desarrollo)
-    )
-
-    tabla = (
-        df["nivel_desarrollo_digital"]
-        .value_counts()
-        .rename_axis("nivel")
-        .reset_index(name="estudios")
-    )
-
-    tabla["porcentaje"] = (
-        tabla["estudios"]
-        / tabla["estudios"].sum()
-        * 100
-    ).round(2)
-
-    return tabla
-# =====================================
-# RESUMEN DEL DESARROLLO DIGITAL
-# =====================================
-
-def resumen_desarrollo_digital(df):
-    """
-    Resumen estadístico del índice
-    de desarrollo digital.
-
-    Retorna
-    -------
-    DataFrame
-    """
-
-    return pd.DataFrame({
-
-        "indicador": [
-
-            "Promedio",
-            "Desvío estándar",
-            "Mediana",
-            "Percentil 25",
-            "Percentil 75"
-
-        ],
-
-        "valor": [
-
-            round(df["indice_desarrollo_digital"].mean(), 3),
-
-            round(df["indice_desarrollo_digital"].std(), 3),
-
-            round(df["indice_desarrollo_digital"].median(), 3),
-
-            round(df["indice_desarrollo_digital"].quantile(0.25), 3),
-
-            round(df["indice_desarrollo_digital"].quantile(0.75), 3)
-
-        ]
-
-    })
-# =====================================
-# RANKINGS
-# =====================================
-# =====================================
-# VISIBILIDAD
-# =====================================
-
-def ranking_baja_visibilidad(df, top=20):
-    """
-    Estudios con menor visibilidad.
-    """
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
 
     tabla = (
 
         df[
-            [
-                "nombre_del_estudio",
-                "barrio",
-                "indice_visibilidad"
-            ]
-        ]
+            df["seguidores_instagram"]
+            .notna()
+        ][columnas]
 
         .sort_values(
-            "indice_visibilidad"
+            "seguidores_instagram",
+            ascending=False
         )
 
-        .head(top)
+        .head(n)
 
-        .reset_index(drop=True)
+        .copy()
 
     )
 
+    print("\n=====================================")
+    print(
+        f" TOP {n} INSTAGRAM"
+    )
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "ranking_instagram.csv"
+    )
+
     return tabla
+
+
 # =====================================
-# desarrollo digital
+# RANKING DE RESEÑAS
 # =====================================
 
-def ranking_desarrollo_digital(df, n=20):
-    """
-    Ranking de desarrollo digital.
-    """
+def ranking_resenas(
+    df,
+    n=20
+):
 
     columnas = [
+        "id_estudio",
+        "nombre_del_estudio",
+        "puntaje_google",
+        "cantidad_resenas",
+        "barrio",
+        "zona",
+    ]
 
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
+
+    tabla = (
+
+        df[
+            df["cantidad_resenas"]
+            .notna()
+        ][columnas]
+
+        .sort_values(
+            "cantidad_resenas",
+            ascending=False
+        )
+
+        .head(n)
+
+        .copy()
+
+    )
+
+    print("\n=====================================")
+    print(
+        f" TOP {n} RESEÑAS"
+    )
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "ranking_resenas.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# RANKING DE PUNTAJE
+# =====================================
+
+def ranking_puntaje(
+    df,
+    n=20
+):
+
+    columnas = [
+        "id_estudio",
+        "nombre_del_estudio",
+        "puntaje_google",
+        "cantidad_resenas",
+        "barrio",
+        "zona",
+    ]
+
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
+
+    tabla = (
+
+        df[
+            df["puntaje_google"]
+            .notna()
+        ][columnas]
+
+        .sort_values(
+            [
+                "puntaje_google",
+                "cantidad_resenas",
+            ],
+            ascending=[
+                False,
+                False,
+            ]
+        )
+
+        .head(n)
+
+        .copy()
+
+    )
+
+    print("\n=====================================")
+    print(
+        f" TOP {n} PUNTAJE"
+    )
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "ranking_puntaje.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# RANKING VISIBILIDAD
+# =====================================
+
+def ranking_visibilidad(
+    df,
+    n=20
+):
+
+    if "indice_visibilidad" not in df.columns:
+
+        return None
+
+    columnas = [
+        "id_estudio",
+        "nombre_del_estudio",
+        "barrio",
+        "zona",
+        "indice_visibilidad",
+        "nivel_visibilidad",
+    ]
+
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
+
+    tabla = (
+
+        df[
+            df["indice_visibilidad"]
+            .notna()
+        ][columnas]
+
+        .sort_values(
+            "indice_visibilidad",
+            ascending=False
+        )
+
+        .head(n)
+
+        .copy()
+
+    )
+
+    print("\n=====================================")
+    print(
+        f" TOP {n} VISIBILIDAD"
+    )
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "ranking_visibilidad.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# RANKING DESARROLLO DIGITAL
+# =====================================
+
+def ranking_desarrollo_digital(
+    df,
+    n=20
+):
+
+    if (
+        "indice_desarrollo_digital"
+        not in df.columns
+    ):
+
+        return None
+
+    columnas = [
+        "id_estudio",
         "nombre_del_estudio",
         "barrio",
         "zona",
         "indice_desarrollo_digital",
-        "nivel_desarrollo_digital"
-
+        "nivel_desarrollo_digital",
     ]
 
-    return (
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
 
-        df[columnas]
+    tabla = (
+
+        df[
+            df[
+                "indice_desarrollo_digital"
+            ].notna()
+        ][columnas]
 
         .sort_values(
             "indice_desarrollo_digital",
@@ -1096,150 +1776,450 @@ def ranking_desarrollo_digital(df, n=20):
 
         .head(n)
 
+        .copy()
+
     )
+
+    print("\n=====================================")
+    print(
+        f" TOP {n} DESARROLLO DIGITAL"
+    )
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "ranking_desarrollo_digital.csv"
+    )
+
+    return tabla
+
+
 # =====================================
-# seguidores
+# CRUCE:
+# VISIBILIDAD × DESARROLLO DIGITAL
 # =====================================
 
-def ranking_seguidores(df, n=20):
+def analizar_visibilidad_desarrollo(df):
 
     columnas = [
-
-        "nombre_del_estudio",
-        "seguidores",
-        "barrio",
-        "zona"
-
+        "indice_visibilidad",
+        "indice_desarrollo_digital",
     ]
 
-    return (
+    if not all(
+        c in df.columns
+        for c in columnas
+    ):
 
-        df[columnas]
+        return None
 
-        .sort_values(
-            "seguidores",
-            ascending=False
+    datos = df[
+        columnas
+    ].dropna()
+
+    if len(datos) < 2:
+
+        return None
+
+    correlacion = (
+        datos[
+            "indice_visibilidad"
+        ]
+        .corr(
+            datos[
+                "indice_desarrollo_digital"
+            ]
         )
-
-        .head(n)
-
     )
+
+    resumen = pd.DataFrame({
+
+        "indicador": [
+            "Estudios comparables",
+            "Correlación Pearson",
+        ],
+
+        "valor": [
+            len(datos),
+            round(
+                correlacion,
+                3
+            ),
+        ]
+
+    })
+
+    print("\n=====================================")
+    print(
+        " VISIBILIDAD × DESARROLLO DIGITAL"
+    )
+    print("=====================================\n")
+
+    print(
+        resumen.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        resumen,
+        "visibilidad_desarrollo_correlacion.csv"
+    )
+
+    return resumen
+
+
 # =====================================
-# google
+# MATRIZ DE NIVELES
 # =====================================
 
-def ranking_google(df, n=20):
+def analizar_matriz_niveles(df):
 
     columnas = [
+        "nivel_visibilidad",
+        "nivel_desarrollo_digital",
+    ]
 
+    if not all(
+        c in df.columns
+        for c in columnas
+    ):
+
+        return None
+
+    matriz = pd.crosstab(
+        df[
+            "nivel_visibilidad"
+        ].fillna("Sin dato"),
+
+        df[
+            "nivel_desarrollo_digital"
+        ].fillna("Sin dato")
+    )
+
+    print("\n=====================================")
+    print(
+        " MATRIZ VISIBILIDAD × DESARROLLO"
+    )
+    print("=====================================\n")
+
+    print(matriz)
+
+    ruta = os.path.join(
+        RUTA_SALIDA,
+        "matriz_visibilidad_desarrollo.csv"
+    )
+
+    matriz.to_csv(
+        ruta,
+        encoding="utf-8-sig"
+    )
+
+    print(
+        f"\nArchivo guardado:\n{ruta}"
+    )
+
+    return matriz
+
+
+# =====================================
+# ESTUDIOS CON ALTA VISIBILIDAD
+# =====================================
+
+def analizar_casos_destacados(df):
+
+    if (
+        "indice_visibilidad"
+        not in df.columns
+    ):
+
+        return None
+
+    columnas = [
+        "id_estudio",
         "nombre_del_estudio",
+        "barrio",
+        "zona",
+        "indice_visibilidad",
+        "nivel_visibilidad",
+        "indice_desarrollo_digital",
+        "nivel_desarrollo_digital",
+        "seguidores_instagram",
         "puntaje_google",
         "cantidad_resenas",
-        "barrio"
-
     ]
 
-    return (
+    columnas = [
+        c for c in columnas
+        if c in df.columns
+    ]
 
-        df[columnas]
+    tabla = (
+
+        df[
+            df[
+                "indice_visibilidad"
+            ].notna()
+        ][columnas]
 
         .sort_values(
-            ["puntaje_google", "cantidad_resenas"],
+            "indice_visibilidad",
             ascending=False
         )
 
-        .head(n)
+        .head(20)
+
+        .copy()
 
     )
 
-# =====================================
-# EXPORTACIÓN
-# =====================================
-OUTPUT = Path("data/output")
+    print("\n=====================================")
+    print(" CASOS DESTACADOS")
+    print("=====================================\n")
 
-OUTPUT.mkdir(
-    parents=True,
-    exist_ok=True
-)
-def exportar_tabla(nombre, tabla):
-
-    tabla.to_csv(
-
-        OUTPUT / f"{nombre}.csv",
-
-        index=False,
-
-        encoding="utf-8-sig"
-
-    )
-def exportar_resultados(resultados):
-
-    for nombre, tabla in resultados.items():
-
-        exportar_tabla(
-
-            nombre,
-
-            tabla
-
+    print(
+        tabla.to_string(
+            index=False
         )
-    
+    )
+
+    guardar_tabla(
+        tabla,
+        "casos_destacados.csv"
+    )
+
+    return tabla
 
 
 # =====================================
-# MAIN
+# DETECTAR DATOS FALTANTES
 # =====================================
+
+def analizar_datos_faltantes(df):
+
+    tabla = pd.DataFrame({
+
+        "columna": df.columns,
+
+        "faltantes": [
+            df[c].isna().sum()
+            for c in df.columns
+        ]
+
+    })
+
+    tabla["porcentaje_faltante"] = (
+        tabla["faltantes"]
+        / len(df)
+        * 100
+    ).round(2)
+
+    tabla = tabla.sort_values(
+        "faltantes",
+        ascending=False
+    )
+
+    print("\n=====================================")
+    print(" DATOS FALTANTES")
+    print("=====================================\n")
+
+    print(
+        tabla.to_string(
+            index=False
+        )
+    )
+
+    guardar_tabla(
+        tabla,
+        "datos_faltantes.csv"
+    )
+
+    return tabla
+
+
+# =====================================
+# EJECUCIÓN PRINCIPAL
+# =====================================
+
 def main():
+
+    crear_directorio_salida()
 
     df = cargar_datos()
 
-    df = calcular_indice_visibilidad(df)
+    df = preparar_datos(
+        df
+    )
 
-    df = calcular_indice_desarrollo_digital(df)
+    # =================================
+    # GENERAL
+    # =================================
 
-    resultados = {
+    analizar_resumen_general(
+        df
+    )
 
-        # Territorio
-        "barrios": analizar_barrios(df),
-        "comunas": analizar_comunas(df),
-        "zonas": analizar_zonas(df),
+    analizar_datos_faltantes(
+        df
+    )
 
-        # Digital
-        "presencia_digital": analizar_presencia_digital(df),
-        "canales_contacto": analizar_canales_contacto(df),
+    # =================================
+    # TERRITORIO
+    # =================================
 
-        # Equipamiento
-        "n_fabricantes": analizar_n_fabricantes(df),
-        "fabricante_multiple": analizar_fabricante_multiple(df),
+    analizar_barrios(
+        df
+    )
 
-        # Mercado
-        "puntajes": analizar_puntajes(df),
-        "resenas": analizar_resenas(df),
-        "seguidores": analizar_seguidores(df),
+    analizar_comunas(
+        df
+    )
 
-        # Cruces
-        "zona_vs_presencia": analizar_zona_vs_presencia(df),
-        "zona_vs_contacto": analizar_zona_vs_contacto(df),
-        "zona_vs_fabricantes": analizar_zona_vs_fabricantes(df),
-        "zona_vs_mercado": analizar_zona_vs_mercado(df),
-        "presencia_vs_mercado": analizar_presencia_vs_mercado(df),
-        "fabricantes_vs_mercado": analizar_fabricantes_vs_mercado(df),
+    analizar_zonas(
+        df
+    )
 
-        # Índices
-        "indice_visibilidad": analizar_nivel_visibilidad(df),
-        "resumen_visibilidad": resumen_indice_visibilidad(df),
+    analizar_perfil_zonal(
+        df
+    )
 
-        "desarrollo_digital": analizar_desarrollo_digital(df),
-        "resumen_desarrollo_digital": resumen_desarrollo_digital(df),
-    }
-    exportar_resultados(resultados)
+    analizar_zona_completa(
+        df
+    )
 
-    for nombre, tabla in resultados.items():
-        print(f"\n{'='*50}")
-        print(nombre.upper())
-        print(f"{'='*50}\n")
+    # =================================
+    # DIGITAL
+    # =================================
 
-        print(tabla)
+    analizar_presencia_digital(
+        df
+    )
+
+    analizar_digital_por_zona(
+        df
+    )
+
+    # =================================
+    # CONTACTO
+    # =================================
+
+    analizar_canales_contacto(
+        df
+    )
+
+    analizar_contacto_digital_por_zona(
+        df
+    )
+
+    # =================================
+    # EQUIPAMIENTO
+    # =================================
+
+    analizar_fabricantes(
+        df
+    )
+
+    analizar_fabricante_multiple(
+        df
+    )
+
+    analizar_fabricantes_por_zona(
+        df
+    )
+
+    # =================================
+    # VISIBILIDAD
+    # =================================
+
+    analizar_visibilidad(
+        df
+    )
+
+    analizar_visibilidad_por_zona(
+        df
+    )
+
+    ranking_visibilidad(
+        df
+    )
+
+    # =================================
+    # DESARROLLO DIGITAL
+    # =================================
+
+    analizar_desarrollo_digital(
+        df
+    )
+
+    analizar_desarrollo_por_zona(
+        df
+    )
+
+    ranking_desarrollo_digital(
+        df
+    )
+
+    # =================================
+    # RANKINGS GENERALES
+    # =================================
+
+    ranking_instagram(
+        df
+    )
+
+    ranking_resenas(
+        df
+    )
+
+    ranking_puntaje(
+        df
+    )
+
+    # =================================
+    # CRUCES
+    # =================================
+
+    analizar_visibilidad_desarrollo(
+        df
+    )
+
+    analizar_matriz_niveles(
+        df
+    )
+
+    analizar_casos_destacados(
+        df
+    )
+
+    # =================================
+    # FINAL
+    # =================================
+
+    print("\n=====================================")
+    print(" ANÁLISIS COMPLETADO")
+    print("=====================================\n")
+
+    print(
+        f"Total de estudios analizados: "
+        f"{len(df)}"
+    )
+
+    print(
+        f"Resultados disponibles en:\n"
+        f"{RUTA_SALIDA}"
+    )
+
+
+# =====================================
+# EJECUTAR
+# =====================================
 
 if __name__ == "__main__":
+
     main()
