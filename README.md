@@ -157,6 +157,65 @@ Salida principal:
 ```
 data/database/observatorio_pilates.db
 ```
+## Motor 4.3 — Carga Manual / Curación (diseño completado)
+
+El Observatorio incorpora una capa de curación manual para registrar conocimiento verificado sin modificar el código ni la base SQLite directamente.
+
+### Principio
+
+> El conocimiento humano entra por archivos maestros; el sistema reconstruye automáticamente el resto.
+
+### Catálogos curados
+
+| Archivo | Rol |
+|---------|-----|
+| `marcas_maestra.csv` | Catálogo oficial de marcas del Observatorio. |
+| `estudios_marcas_verificado.csv` | Relaciones sede–marca verificadas manualmente. |
+
+### Archivos generados
+
+| Archivo | Origen |
+|---------|--------|
+| `estudios_marcas.csv` | Reconstruido automáticamente. |
+| `observatorio_pilates.db` | Sincronizado automáticamente desde los archivos procesados. |
+
+### Flujo oficial
+
+```text
+Curación manual
+       │
+       ▼
+marcas_maestra.csv
+       │
+estudios_marcas_verificado.csv
+       │
+       ▼
+rebuild_estudios_marcas.py
+       │
+       ▼
+estudios_marcas.csv
+       │
+       ▼
+load_database.py
+       │
+       ▼
+observatorio_pilates.db
+```
+
+### Reglas de gobernanza
+
+Nunca se editan manualmente:
+
+- `estudios_features.csv`
+- `estudios_marcas.csv`
+- `observatorio_pilates.db`
+
+Siempre se editan manualmente:
+
+- `marcas_maestra.csv`
+- `estudios_marcas_verificado.csv`
+
+Esto garantiza trazabilidad y reproducibilidad del Observatorio.
 
 ---
 

@@ -1,0 +1,49 @@
+﻿ranking,barrio,oportunidad,categoria,estudios,poblacion,estudios_por_10000,marcas,explicacion
+1,Flores,90.7,Alta,4,164310,0.24344227375083682,4,Baja saturación y buena población.
+2,Balvanera,87.1,Alta,5,138926,0.35990383369563655,5,Baja saturación y buena población.
+3,Villa Lugano,86.5,Alta,4,126374,0.31652080332979887,4,Baja saturación y buena población.
+4,San Cristobal,83.8,Alta,0,48611,0.0,0,Baja saturación y buena población.
+5,Villa Soldati,83.6,Alta,0,46779,0.0,0,Baja saturación y buena población.
+6,Nueva Pompeya,83.3,Alta,0,42695,0.0,0,Baja saturación y buena población.
+7,Monserrat,83.0,Alta,0,39914,0.0,0,Baja saturación y buena población.
+8,Monte Castro,82.4,Alta,0,33623,0.0,0,Baja saturación y buena población.
+9,Villa Ortuzar,81.4,Alta,0,21736,0.0,0,Baja saturación y buena población.
+10,Paternal,81.2,Alta,0,19717,0.0,0,Baja saturación y buena población.
+11,Parque Chas,81.0,Alta,0,17489,0.0,0,Baja saturación y buena población.
+12,Parque Avellaneda,80.4,Alta,2,53229,0.37573503165567645,2,Baja saturación y buena población.
+13,Villa Pueyrredon,79.9,Alta,1,39654,0.25218136884047004,1,Baja saturación y buena población.
+14,Boca,79.1,Alta,2,45113,0.4433311905659123,2,Baja saturación y buena población.
+15,Barracas,79.1,Alta,6,89452,0.6707507937217725,6,Baja saturación y buena población.
+16,Constitucion,78.8,Alta,2,44107,0.45344276418709045,2,Baja saturación y buena población.
+17,Almagro,78.3,Alta,12,131699,0.9111686497239918,12,Baja saturación y buena población.
+18,Saavedra,77.9,Alta,3,50295,0.5964807634953773,3,Baja saturación y buena población.
+19,Mataderos,77.1,Alta,5,64436,0.7759637469737414,5,Baja saturación y buena población.
+20,Coghlan,76.2,Alta,1,18604,0.5375188131584605,1,Baja saturación y buena población.
+21,Agronomia,74.3,Media,1,13912,0.718803910293272,1,Mercado competitivo.
+22,Caballito,73.2,Media,24,176076,1.3630477748245076,24,Mercado competitivo.
+23,Retiro,72.0,Media,8,65413,1.222998486539373,8,Mercado competitivo.
+24,Floresta,69.8,Media,5,37575,1.330671989354624,5,Mercado competitivo.
+25,Velez Sarsfield,68.9,Media,5,35081,1.4252729397679655,5,Mercado competitivo.
+26,Villa Crespo,67.5,Media,14,81959,1.7081711587501067,14,Mercado competitivo.
+27,Villa Real,67.4,Media,2,13419,1.4904240256352934,2,Mercado competitivo.
+28,Nuñez,65.8,Media,9,51949,1.7324683824520204,9,Mercado competitivo.
+29,Villa Devoto,65.2,Media,12,66521,1.8039416124231447,12,Mercado competitivo.
+30,Villa Del Parque,64.3,Media,10,55273,1.8092015993342137,10,Mercado competitivo.
+31,Villa Gral. Mitre,63.0,Media,7,34713,2.016535591853196,7,Mercado competitivo.
+32,Villa Santa Rita,61.9,Media,7,33325,2.100525131282821,7,Mercado competitivo.
+33,Villa Riachuelo,61.4,Media,3,14084,2.1300766827605795,3,Mercado competitivo.
+34,Parque Patricios,61.3,Media,9,40985,2.1959253385384896,9,Mercado competitivo.
+35,Versalles,61.0,Media,3,13822,2.1704529011720446,3,Mercado competitivo.
+36,Liniers,60.1,Media,10,44132,2.2659294842744493,10,Mercado competitivo.
+37,Recoleta,59.4,Media,27,157932,1.7095965352176885,27,Mercado competitivo.
+38,Colegiales,58.1,Media,13,52551,2.473787368461114,13,Mercado competitivo.
+39,Chacarita,58.1,Media,7,27761,2.521522999891935,7,Mercado competitivo.
+40,Parque Chacabuco,56.3,Media,15,56281,2.66519784652014,15,Mercado competitivo.
+41,Belgrano,56.0,Media,31,126267,2.455114954817965,31,Mercado competitivo.
+42,Boedo,55.8,Media,13,47306,2.748065784467087,13,Mercado competitivo.
+43,Villa Urquiza,54.8,Media,25,91563,2.7303605168026386,25,Mercado competitivo.
+44,Palermo,52.6,Media,47,226534,2.074743747075494,47,Mercado competitivo.
+45,San Telmo,49.8,Maduro,7,20453,3.4224808096611747,7,Mercado competitivo.
+46,San Nicolas,28.2,Maduro,16,29273,5.465787585829945,16,Mercado competitivo.
+47,Villa Luro,28.1,Maduro,18,32502,5.5381207310319365,18,Mercado competitivo.
+48,Puerto Madero,27.6,Maduro,4,6726,5.947071067499256,4,Mercado competitivo.
