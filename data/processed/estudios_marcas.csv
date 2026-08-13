@@ -1,3 +1,400 @@
-﻿id_estudio,id_marca
-EST-0077,M-0001
-EST-0112,M-0001
+﻿id_estudio,id_marca,nombre_marca,observaciones
+EST-0001,M-0002,Fusión Pilates Palermo,Marca individual.
+EST-0002,M-0003,Glow Pilates Studio,Marca individual.
+EST-0003,M-0004,Tu mundo pilates,Marca individual.
+EST-0004,M-0005,Fabiana Tallarico,Marca individual.
+EST-0005,M-0006,Plaza Pilates,Marca individual.
+EST-0006,M-0007,Club Palermo Pilates,Marca individual.
+EST-0007,M-0008,Hawa Fitness Pilates Studio,Marca individual.
+EST-0008,M-0009,"@vyfpilates, Pilates",Marca individual.
+EST-0009,M-0010,Angel Pilates,Marca individual.
+EST-0010,M-0011,Clic Pilates Palermo Soho,Marca individual.
+EST-0011,M-0012,Palermo Pilates,Marca individual.
+EST-0012,M-0013,Centropilates BA Palermo,Marca individual.
+EST-0013,M-0014,María Laura Studio,Marca individual.
+EST-0014,M-0015,Corporal Centro De Bienestar Fisico,Marca individual.
+EST-0015,M-0016,BG PILATES BARRIO NORTE,Marca individual.
+EST-0016,M-0017,Espiralado,Marca individual.
+EST-0017,M-0018,Oxzen Pilates,Marca individual.
+EST-0018,M-0019,Mood Pilates Reformer,Marca individual.
+EST-0019,M-0020,Palace Pilates,Marca individual.
+EST-0020,M-0021,Pilates INtegral,Marca individual.
+EST-0021,M-0022,Body Fit - Pilates Contemporaneo,Marca individual.
+EST-0022,M-0023,Pilates BARAKA,Marca individual.
+EST-0023,M-0024,Clic Pilates Palermo Hollywood,Marca individual.
+EST-0024,M-0025,Lotuszen Pilates,Marca individual.
+EST-0025,M-0026,Pilates UMANO,Marca individual.
+EST-0026,M-0027,Udana Pilates Studio,Marca individual.
+EST-0027,M-0028,Naos Pilates Studio,Marca individual.
+EST-0028,M-0029,Balance Pilates,Marca individual.
+EST-0029,M-0030,KaiBliss | Yoga & Wellness,Marca individual.
+EST-0030,M-0031,Ambika Pilates Palermo,Marca individual.
+EST-0031,M-0032,Naroa Pilates,Marca individual.
+EST-0032,M-0033,Dash Pilates & Yoga,Marca individual.
+EST-0033,M-0034,ATTIC - Pilates & Barre Studio,Marca individual.
+EST-0034,M-0035,MP Pilates,Marca individual.
+EST-0035,M-0036,Pilates HIIT,Marca individual.
+EST-0036,M-0037,Quequi Pilates,Marca individual.
+EST-0037,M-0038,PuraVida Pilates,Marca individual.
+EST-0038,M-0039,Pilates Clásico - Raquel Sosa Estudio,Marca individual.
+EST-0039,M-0040,Powerhouse Pilates,Marca individual.
+EST-0040,M-0041,Pilates Flow,Marca individual.
+EST-0041,M-0042,Toulouse Pilates Palermo,Marca individual.
+EST-0042,M-0043,Eutónico Pilates,Marca individual.
+EST-0043,M-0044,DDB pilates,Marca individual.
+EST-0044,M-0045,Pramana Pilates Studio,Marca individual.
+EST-0045,M-0046,Tu mundo Pilates,Marca individual.
+EST-0046,M-0047,BG PILATES BARRIO NORTE,Marca individual.
+EST-0047,M-0048,Jaz Cherbenco Pilates Clásico,Marca individual.
+EST-0048,M-0049,Mamiwata Pilates Reformer,Marca individual.
+EST-0049,M-0050,The Pilates Studio,Marca individual.
+EST-0050,M-0051,Etnya Pilates,Marca individual.
+EST-0051,M-0052,Armonia Pilates,Marca individual.
+EST-0052,M-0053,Tu Espacio de Pilates y Estética,Marca individual.
+EST-0053,M-0054,Espacio Activa Primera Junta,Marca individual.
+EST-0054,M-0055,AC Atelier Pilates,Marca individual.
+EST-0055,M-0056,BODY LIFE PILATES,Marca individual.
+EST-0056,M-0057,PILATES Bajo Impacto,Marca individual.
+EST-0057,M-0058,Humanu Pilates,Marca individual.
+EST-0058,M-0059,Cinética Pilates,Marca individual.
+EST-0059,M-0060,Move On Pilates,Marca individual.
+EST-0060,M-0061,Maestro Pilates,Marca individual.
+EST-0061,M-0062,Maria Azar Pilates,Marca individual.
+EST-0062,M-0063,NUEVO PILATES,Marca individual.
+EST-0063,M-0064,ALMA Pilates,Marca individual.
+EST-0064,M-0065,Pilates Clásico Nati Milito,Marca individual.
+EST-0065,M-0066,"Pilates by CORE - CABALLITO, DIRECTORIO",Marca individual.
+EST-0066,M-0067,BA PILATES CABALLITO,Marca individual.
+EST-0067,M-0068,Philautía Pilates,Marca individual.
+EST-0068,M-0069,Ambika Caballito,Marca individual.
+EST-0069,M-0070,Pilates Flow Hidalgo,Marca individual.
+EST-0070,M-0071,Pilates Estudio & Entrenamiento,Marca individual.
+EST-0071,M-0072,Triskel Wellness Center,Marca individual.
+EST-0072,M-0073,ZONA PILATES,Marca individual.
+EST-0073,M-0074,Alfa&Omega Pilates,Marca individual.
+EST-0074,M-0075,Ossom Pilates,Marca individual.
+EST-0075,M-0076,BSM Pilates,Marca individual.
+EST-0076,M-0077,MUV Pilates Belgrano,Marca individual.
+EST-0077,M-0001,Pilates Delpino,Relación verificada manualmente.
+EST-0078,M-0078,Maori Pilates,Marca individual.
+EST-0079,M-0079,PILATES FIT,Marca individual.
+EST-0080,M-0080,Be Pilates,Marca individual.
+EST-0081,M-0081,Bicca Pilates Studio,Marca individual.
+EST-0082,M-0082,Prana House - Yoga & Pilates,Marca individual.
+EST-0083,M-0083,Soho Pilates,Marca individual.
+EST-0084,M-0084,Pilates Coy,Marca individual.
+EST-0085,M-0085,Estudio Pilates Zen,Marca individual.
+EST-0086,M-0086,Met pilates club,Marca individual.
+EST-0087,M-0087,Pilates menta,Marca individual.
+EST-0088,M-0088,Kenko pilates,Marca individual.
+EST-0089,M-0089,BARRE ESTUDIO,Marca individual.
+EST-0090,M-0090,Vita Terapia Corporal,Marca individual.
+EST-0091,M-0091,Pilates Studio Benessere,Marca individual.
+EST-0092,M-0092,Vení a Pilates Estudio,Marca individual.
+EST-0093,M-0093,Ágape Unisex Pilates,Marca individual.
+EST-0094,M-0094,EQUMM Gimnasias & Pilates,Marca individual.
+EST-0095,M-0095,ÂME Pilates Body Ballet,Marca individual.
+EST-0096,M-0096,Mundo Pilates Belgrano,Marca individual.
+EST-0097,M-0097,Vibra Pilates,Marca individual.
+EST-0098,M-0098,OStudio pilates y más,Marca individual.
+EST-0099,M-0099,Le Mouvement Parfait,Marca individual.
+EST-0100,M-0100,Espacio Balance,Marca individual.
+EST-0101,M-0101,MovePilates Belgrano,Marca individual.
+EST-0102,M-0102,Moon Pilates,Marca individual.
+EST-0103,M-0103,"Pilates by CORE - RECOLETA, MANSILLA",Marca individual.
+EST-0104,M-0104,Aura Pilates Recoleta,Marca individual.
+EST-0105,M-0105,Go Fit Pilates Recoleta,Marca individual.
+EST-0106,M-0106,Mon Rêve Pilates,Marca individual.
+EST-0107,M-0107,ÂME Pilates Body Ballet,Marca individual.
+EST-0108,M-0108,SoulPilates,Marca individual.
+EST-0109,M-0109,Ameray Pilates,Marca individual.
+EST-0110,M-0110,Otis Pilates,Marca individual.
+EST-0111,M-0111,MS Pilates,Marca individual.
+EST-0112,M-0001,Pilates Delpino,Relación verificada manualmente.
+EST-0113,M-0112,Meraki Yoga & Pilates,Marca individual.
+EST-0114,M-0113,Studio recoleta pilates,Marca individual.
+EST-0115,M-0114,Epiler Recoleta,Marca individual.
+EST-0116,M-0115,"Ser Zen barre, pilates y yoga",Marca individual.
+EST-0117,M-0116,Integral Pilates,Marca individual.
+EST-0118,M-0117,ESPACIO LUZ PILATES CLASICO,Marca individual.
+EST-0119,M-0118,Fusión Pilates Palermo,Marca individual.
+EST-0120,M-0119,RONA Pilates Reformer Recoleta,Marca individual.
+EST-0121,M-0120,Pilates Club,Marca individual.
+EST-0122,M-0121,Studio Secret to Live,Marca individual.
+EST-0123,M-0122,Anima Estudio Pilates,Marca individual.
+EST-0124,M-0123,Genkiro Studio Recoleta,Marca individual.
+EST-0125,M-0124,Amazonia Pilates,Marca individual.
+EST-0126,M-0125,Nexo Pilates & Therapy Recoleta,Marca individual.
+EST-0127,M-0126,Modo Pilates Barrio Norte,Marca individual.
+EST-0128,M-0127,Pilates Más Actividad sucursal Recoleta,Marca individual.
+EST-0129,M-0128,JaluPilates,Marca individual.
+EST-0130,M-0129,Maison Pilates & Wellness,Marca individual.
+EST-0131,M-0130,Pilatisa tu vida,Marca individual.
+EST-0132,M-0131,Desirée Centro de Estetica y Pilates,Marca individual.
+EST-0133,M-0132,Art Pilates,Marca individual.
+EST-0134,M-0133,Madero Soul,Marca individual.
+EST-0135,M-0134,Pilates Motus Tacuari,Marca individual.
+EST-0136,M-0135,SOMA PILATES,Marca individual.
+EST-0137,M-0136,Sankalpa Pilates y Yoga,Marca individual.
+EST-0138,M-0137,Be Balance StudioPilates Microcentro,Marca individual.
+EST-0139,M-0138,KUMARA PILATES & FIT BARRE,Marca individual.
+EST-0140,M-0139,KALON PILATES REFORMER,Marca individual.
+EST-0141,M-0140,CASA DE MOVIMIENTO Pilates Studio,Marca individual.
+EST-0142,M-0141,Espacio Raíz Pilates y Yoga,Marca individual.
+EST-0143,M-0142,S Circuit Pilates Reformer,Marca individual.
+EST-0144,M-0143,Teseo.Pilates Funcional,Marca individual.
+EST-0145,M-0144,Pilates postural y estiramiento VK,Marca individual.
+EST-0146,M-0145,Releve Pilates,Marca individual.
+EST-0147,M-0146,Espiral Pilates,Marca individual.
+EST-0148,M-0147,Teseo | Pilates Funcional,Marca individual.
+EST-0149,M-0148,Arena Pilates,Marca individual.
+EST-0150,M-0149,Ayla Studio Pilates,Marca individual.
+EST-0151,M-0150,Plena Pilates,Marca individual.
+EST-0152,M-0151,VIC Pilates Arg,Marca individual.
+EST-0153,M-0152,MDC pilates,Marca individual.
+EST-0154,M-0153,BODY LIFE PILATES,Marca individual.
+EST-0155,M-0154,Pilates Más Actividad sucursal Recoleta,Marca individual.
+EST-0156,M-0155,"aires up! Fitness y Pilates, Sede Barrio Norte",Marca individual.
+EST-0157,M-0156,Aura Pilates,Marca individual.
+EST-0158,M-0157,Ayla Studio Pilates,Marca individual.
+EST-0159,M-0158,Mas Cerca Pilates,Marca individual.
+EST-0160,M-0159,Bayres Pilates Studio,Marca individual.
+EST-0161,M-0160,Prisma Pilates,Marca individual.
+EST-0162,M-0161,Pilateá con Mar,Marca individual.
+EST-0163,M-0162,El Loft San Telmo - Pilates y Estética,Marca individual.
+EST-0164,M-0163,San Telmo PILATES,Marca individual.
+EST-0165,M-0164,Etéreo Pilates,Marca individual.
+EST-0166,M-0165,Desde Laura,Marca individual.
+EST-0167,M-0166,SF Pilates La Boca,Marca individual.
+EST-0168,M-0167,Tan Tiem Pilates,Marca individual.
+EST-0169,M-0168,Pilates Studio - Sede Barracas,Marca individual.
+EST-0170,M-0169,Ayres de Barracas Pilates,Marca individual.
+EST-0171,M-0170,CEP - Centro de estetica & pilates - Barracas,Marca individual.
+EST-0172,M-0171,Cuerpo en alba Pilates,Marca individual.
+EST-0173,M-0172,Crezia Pilates & Yoga,Marca individual.
+EST-0174,M-0173,María Rego Pilates,Marca individual.
+EST-0175,M-0174,MR Pilates Reformer @mrpilatesreformer,Marca individual.
+EST-0176,M-0175,Piuké Pilates Boedo,Marca individual.
+EST-0177,M-0176,Vida Pilates,Marca individual.
+EST-0178,M-0177,Full Pilates Castro,Marca individual.
+EST-0179,M-0178,Full Pilates Muñiz,Marca individual.
+EST-0180,M-0179,Alfa Pilates,Marca individual.
+EST-0181,M-0180,Cuerpo Saludable Pilates,Marca individual.
+EST-0182,M-0181,Josefa PilatesEstudio,Marca individual.
+EST-0183,M-0182,Centro Pilates Time,Marca individual.
+EST-0184,M-0183,Vita Pilates Studio,Marca individual.
+EST-0185,M-0184,Sol Salud,Marca individual.
+EST-0186,M-0185,Espacio Caracol Pilates,Marca individual.
+EST-0187,M-0186,Entre Ríos Pilates,Marca individual.
+EST-0188,M-0187,Meraki Bienestar - Pilates reformer y actividades posturales,Marca individual.
+EST-0189,M-0188,Allegro Pilates,Marca individual.
+EST-0190,M-0189,Dhara Pilates,Marca individual.
+EST-0191,M-0190,Pila Pilates,Marca individual.
+EST-0192,M-0191,Estudio Hara,Marca individual.
+EST-0193,M-0192,MP Pilates,Marca individual.
+EST-0194,M-0193,El Estudio,Marca individual.
+EST-0195,M-0194,Pilates Grow @pilatesgrowar,Marca individual.
+EST-0196,M-0195,Pilates Line,Marca individual.
+EST-0197,M-0196,Oma BA - Pilates & Yoga,Marca individual.
+EST-0198,M-0197,SPA PILATES,Marca individual.
+EST-0199,M-0198,Pilates Aroha,Marca individual.
+EST-0200,M-0199,Centropilates BA Núñez,Marca individual.
+EST-0201,M-0200,Imperio Pilates Studio,Marca individual.
+EST-0202,M-0201,Almha Pilates,Marca individual.
+EST-0203,M-0202,Iluminar Pilates&Bienestar,Marca individual.
+EST-0204,M-0203,Erevan Pilates,Marca individual.
+EST-0205,M-0204,Ludemma Pilates y Yoga,Marca individual.
+EST-0206,M-0205,JVS Pilates,Marca individual.
+EST-0207,M-0206,Life Pilates,Marca individual.
+EST-0208,M-0207,Bive Pilates,Marca individual.
+EST-0209,M-0208,SerUno Pilates Reforme,Marca individual.
+EST-0210,M-0209,Vital Pilates,Marca individual.
+EST-0211,M-0210,Carpe Diem Pilates Clásico,Marca individual.
+EST-0212,M-0211,Ikal,Marca individual.
+EST-0213,M-0212,Estudio del Sur Pilates,Marca individual.
+EST-0214,M-0213,Patricia Pilates Castillo,Marca individual.
+EST-0215,M-0214,Non solo Pilates,Marca individual.
+EST-0216,M-0215,Leitmotiv Pilates,Marca individual.
+EST-0217,M-0216,Valestar bien,Marca individual.
+EST-0218,M-0217,Yoga y Pilates,Marca individual.
+EST-0219,M-0218,Espacio Compromiso Bienestar,Marca individual.
+EST-0220,M-0219,Estetica Glow,Marca individual.
+EST-0221,M-0220,Centro Pilates Buenos Aires,Marca individual.
+EST-0222,M-0221,Umana Pilates Caballito,Marca individual.
+EST-0223,M-0222,V.A. Pilates & Stretching,Marca individual.
+EST-0224,M-0223,Pilates Mat y Reformer Bio Gym,Marca individual.
+EST-0225,M-0224,SOY Pilates,Marca individual.
+EST-0226,M-0225,Sol Pilates,Marca individual.
+EST-0227,M-0226,Mantra Yoga y Pilates,Marca individual.
+EST-0228,M-0227,SerUno • Pilates Reformer,Marca individual.
+EST-0229,M-0228,Pilates Studio Sabrina Feal,Marca individual.
+EST-0230,M-0229,Bive Pilates Villa Luro,Marca individual.
+EST-0231,M-0230,VALU pilates reformer funcional,Marca individual.
+EST-0232,M-0231,Yoga y Pilates Villa Luro,Marca individual.
+EST-0233,M-0232,LINA PILATES,Marca individual.
+EST-0234,M-0233,206 Pilates Studio,Marca individual.
+EST-0235,M-0234,Sukha Pilates Core Center,Marca individual.
+EST-0236,M-0235,Mikigai Pilates,Marca individual.
+EST-0237,M-0236,Pilates en Circuito SD Versalles,Marca individual.
+EST-0238,M-0237,Pilates del Ángel by Maca Ardanaz,Marca individual.
+EST-0239,M-0238,"HAUS, Casa de Pilates",Marca individual.
+EST-0240,M-0239,Palacio Fit,Marca individual.
+EST-0241,M-0240,Espacio fit,Marca individual.
+EST-0242,M-0241,Étoile Pilates Studio,Marca individual.
+EST-0243,M-0242,Estudio Taoyqi,Marca individual.
+EST-0244,M-0243,MR Pilates Reformer @mrpilatesreforme,Marca individual.
+EST-0245,M-0244,Paloma Pilates,Marca individual.
+EST-0246,M-0245,MirianG.- Espacio de Pilates,Marca individual.
+EST-0247,M-0246,Pilates Flow Chacabuco,Marca individual.
+EST-0248,M-0247,Oasis Pilates,Marca individual.
+EST-0249,M-0248,HA! Pilates y Bienestar,Marca individual.
+EST-0250,M-0249,Toulouse Pilates Chacabuco,Marca individual.
+EST-0251,M-0250,Vidamí Pilates Mat,Marca individual.
+EST-0252,M-0251,YB estudio Pilates,Marca individual.
+EST-0253,M-0252,Ananda Pilates,Marca individual.
+EST-0254,M-0253,Etnya Pilates Craig,Marca individual.
+EST-0255,M-0254,Vibra Pilates Consiente,Marca individual.
+EST-0256,M-0255,JOA estudio de pilates,Marca individual.
+EST-0257,M-0256,MWD,Marca individual.
+EST-0258,M-0257,Gran Cóndor Fitness,Marca individual.
+EST-0259,M-0258,Yola_juana,Marca individual.
+EST-0260,M-0259,Kyo Pilates,Marca individual.
+EST-0261,M-0260,Shyvana Pilates,Marca individual.
+EST-0262,M-0261,Maximo Pilates,Marca individual.
+EST-0263,M-0262,Bloom Pilates,Marca individual.
+EST-0264,M-0263,Toulouse Pilates Colegiales,Marca individual.
+EST-0265,M-0264,Alquimia Pilates,Marca individual.
+EST-0266,M-0265,Espacio Mat - CLASES ONLINE de Pilates - Elongación - Yoga,Marca individual.
+EST-0267,M-0266,Pilates Estudio MCM,Marca individual.
+EST-0268,M-0267,Corpo método Pilates,Marca individual.
+EST-0269,M-0268,Alma Move It. Espacio Integral de Técnicas Corporales Conscientes,Marca individual.
+EST-0270,M-0269,Gimnasia Postural Global Daniela Pérsico,Marca individual.
+EST-0271,M-0270,Gimnasio Plaza Lou,Marca individual.
+EST-0272,M-0271,Energía Vital,Marca individual.
+EST-0273,M-0272,~KALE~ Pilates&Nutrición,Marca individual.
+EST-0274,M-0273,Ampilates.estudio,Marca individual.
+EST-0275,M-0274,Vitalife Pilates,Marca individual.
+EST-0276,M-0275,Espacio Balance,Marca individual.
+EST-0277,M-0276,Raisa pilates,Marca individual.
+EST-0278,M-0277,Justa Pilates,Marca individual.
+EST-0279,M-0278,EQUM,Marca individual.
+EST-0280,M-0279,Estudio Naapura,Marca individual.
+EST-0281,M-0280,ViVe!PiLaTeS Estudio,Marca individual.
+EST-0282,M-0281,Imperio Pilates Chacarita,Marca individual.
+EST-0283,M-0282,Estudio Core BA Pilates,Marca individual.
+EST-0284,M-0283,PILATES 2x4,Marca individual.
+EST-0285,M-0284,DV-Estudio // Mariela Ruggeri,Marca individual.
+EST-0286,M-0285,Espiral Pilates,Marca individual.
+EST-0287,M-0286,Nanai Pilates,Marca individual.
+EST-0288,M-0287,Estudio de Pilates Diem,Marca individual.
+EST-0289,M-0288,Fluxus Pilates,Marca individual.
+EST-0290,M-0289,F&S pilates STUDIO,Marca individual.
+EST-0291,M-0290,Holística Yoga & Pilates,Marca individual.
+EST-0292,M-0291,Zentir Pilates Reformer,Marca individual.
+EST-0293,M-0292,La Pilateria de Almagro,Marca individual.
+EST-0294,M-0293,Armonía's pilates,Marca individual.
+EST-0295,M-0294,Pilates funcional by Gi,Marca individual.
+EST-0296,M-0295,Juan Sosa Pilates Estudió,Marca individual.
+EST-0297,M-0296,KUYÉN CLUB | PILATES REFORMER HIPFF | ENERGÍA Y MOVIMIENTO QUE TRANSFORMA,Marca individual.
+EST-0298,M-0297,Chysalis,Marca individual.
+EST-0299,M-0298,Casa Encuentro - Pilates & Flex,Marca individual.
+EST-0300,M-0299,Pilates Home,Marca individual.
+EST-0301,M-0300,Espacio GUD Pilates,Marca individual.
+EST-0302,M-0301,Pilates House Studio,Marca individual.
+EST-0303,M-0302,Studio AC_ Pilates Reformer,Marca individual.
+EST-0304,M-0303,Estilo Devoto Pilates,Marca individual.
+EST-0305,M-0304,G Pilates Studio,Marca individual.
+EST-0306,M-0305,Sandra Martínez Auténtico Pilates,Marca individual.
+EST-0307,M-0306,Fit Studio Pilates,Marca individual.
+EST-0308,M-0307,Move Pilates Devoto,Marca individual.
+EST-0309,M-0308,Espacio Haya,Marca individual.
+EST-0310,M-0309,Espacio TransforMar,Marca individual.
+EST-0311,M-0310,Inspiración Pilates Villa Devoto,Marca individual.
+EST-0312,M-0311,Espacio Infinito Yoga y Pilates,Marca individual.
+EST-0313,M-0312,Alais Pilates,Marca individual.
+EST-0314,M-0313,Fullfit,Marca individual.
+EST-0315,M-0314,Muévelo Pilates,Marca individual.
+EST-0316,M-0315,Ganesha pilates,Marca individual.
+EST-0317,M-0316,Calupi Estudio,Marca individual.
+EST-0318,M-0317,PILATES AROHA VILLA DEL PARQUE,Marca individual.
+EST-0319,M-0318,Danez Pilates & Funcional,Marca individual.
+EST-0320,M-0319,Casa Dynamo Pilates,Marca individual.
+EST-0321,M-0320,Pilates Más Actividad sucursal Villa del Parque,Marca individual.
+EST-0322,M-0321,Flow Pilates Estudio,Marca individual.
+EST-0323,M-0322,CONSCIOUS STUDIO PILATES,Marca individual.
+EST-0324,M-0323,Ambar Wellness -pilates,Marca individual.
+EST-0325,M-0324,NETO PILATES,Marca individual.
+EST-0326,M-0325,LA DONATA PILATES,Marca individual.
+EST-0327,M-0326,Pilates Mahara,Marca individual.
+EST-0328,M-0327,Studio Smile Pilates,Marca individual.
+EST-0329,M-0328,Cuore pilates,Marca individual.
+EST-0330,M-0329,KS Estudio Pilates,Marca individual.
+EST-0331,M-0330,Pilates MEP,Marca individual.
+EST-0332,M-0331,Kairos Pilates y Yoga,Marca individual.
+EST-0333,M-0332,Rincon del Alma Pilates,Marca individual.
+EST-0334,M-0333,BB. estudio,Marca individual.
+EST-0335,M-0334,Linda para vos - Pilates & Spa,Marca individual.
+EST-0336,M-0335,Pilates Bren,Marca individual.
+EST-0337,M-0336,Pilates Marina,Marca individual.
+EST-0338,M-0337,Sol Azteca Pilates,Marca individual.
+EST-0339,M-0338,Imperio Pilates Studio,Marca individual.
+EST-0340,M-0339,Fémina Estudio,Marca individual.
+EST-0341,M-0340,Arte Pilates,Marca individual.
+EST-0342,M-0341,Casa Amarilla Pilates y masajes,Marca individual.
+EST-0343,M-0342,El Atelier Pilates,Marca individual.
+EST-0344,M-0343,Nuevo Pilates Urquiza,Marca individual.
+EST-0345,M-0344,PILATES VALMA,Marca individual.
+EST-0346,M-0345,Colmao de Pilates,Marca individual.
+EST-0347,M-0346,Plena Estudio de Danzas y Pilates,Marca individual.
+EST-0348,M-0347,Feel Good,Marca individual.
+EST-0349,M-0348,Pilates Muta,Marca individual.
+EST-0350,M-0349,Claudia Pilates y Kobido,Marca individual.
+EST-0351,M-0350,Roma Pilates & Coffee,Marca individual.
+EST-0352,M-0351,Hono Studio,Marca individual.
+EST-0353,M-0352,Pilates Villa Crespo,Marca individual.
+EST-0354,M-0353,Pilates Ki,Marca individual.
+EST-0355,M-0354,Rizoma Pilates,Marca individual.
+EST-0356,M-0355,Levy Pilates,Marca individual.
+EST-0357,M-0356,Sayen Pilates & Spa,Marca individual.
+EST-0358,M-0357,Samsara Pilates Villa Crespo,Marca individual.
+EST-0359,M-0358,Centro ByB,Marca individual.
+EST-0360,M-0359,Pilates DynaMov,Marca individual.
+EST-0361,M-0360,CuerpoEspiral - Pilates Personalizado,Marca individual.
+EST-0362,M-0361,Spacio Zeta Pilates Boot Camp,Marca individual.
+EST-0363,M-0362,Aprile Pilates,Marca individual.
+EST-0364,M-0363,HEALTH STUDIO Ar,Marca individual.
+EST-0365,M-0364,Bienestar en Movimiento,Marca individual.
+EST-0366,M-0365,Estudio Corporeum,Marca individual.
+EST-0367,M-0366,SerUno • Pilates Reformer,Marca individual.
+EST-0368,M-0367,Pilates Studio Sabrina Feal,Marca individual.
+EST-0369,M-0368,Bive Pilates Villa Luro,Marca individual.
+EST-0370,M-0369,VALU pilates reformer funcional,Marca individual.
+EST-0371,M-0370,Yoga y Pilates Villa Luro,Marca individual.
+EST-0372,M-0371,LINA PILATES,Marca individual.
+EST-0373,M-0372,Hema Pilates,Marca individual.
+EST-0374,M-0373,Bloom Pilates,Marca individual.
+EST-0375,M-0374,Centro Pilates Buenos Aires,Marca individual.
+EST-0376,M-0375,Umana Pilates Caballito,Marca individual.
+EST-0377,M-0376,Vital Pilates,Marca individual.
+EST-0378,M-0377,206 Pilates Studio,Marca individual.
+EST-0379,M-0378,Sukha Pilates Core Center,Marca individual.
+EST-0380,M-0379,Pilates en Circuito SD Versalles,Marca individual.
+EST-0381,M-0380,"HAUS, Casa de Pilates®",Marca individual.
+EST-0382,M-0381,Pilates y entrenamiento,Marca individual.
+EST-0383,M-0382,Alma Pilates Gaona-Estetica,Marca individual.
+EST-0384,M-0383,GD Pilates & Elongacion by Marce Vaisberg,Marca individual.
+EST-0385,M-0384,Pilates V&Vos,Marca individual.
+EST-0386,M-0385,Malú Pilates,Marca individual.
+EST-0387,M-0386,Casa Dynamo Pilates,Marca individual.
+EST-0388,M-0387,COLUMPYLATES,Marca individual.
+EST-0389,M-0388,Gabyota PILATES,Marca individual.
+EST-0390,M-0389,Benincasa Pilates,Marca individual.
+EST-0391,M-0390,Muevete Guapa,Marca individual.
+EST-0392,M-0391,GS Bienestar Corporal,Marca individual.
+EST-0393,M-0392,Danez Pilates & Funciónal,Marca individual.
+EST-0394,M-0393,Paulypilates,Marca individual.
+EST-0395,M-0394,Accio Estudio - Danza y Pilates,Marca individual.
+EST-0396,M-0395,ONIRA PILATES,Marca individual.
+EST-0397,M-0396,Mikigai Pilates,Marca individual.
+EST-0398,M-0397,Vida Pilates,Marca individual.
+EST-0399,M-0398,Aural Studio Pilates,Marca individual.

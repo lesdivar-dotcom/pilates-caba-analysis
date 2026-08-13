@@ -1,0 +1,41 @@
+﻿ranking,barrio,estudios,porcentaje,acumulado
+1,Palermo,47,11.78,11.78
+2,Belgrano,31,7.77,19.55
+3,Recoleta,27,6.77,26.32
+4,Villa Urquiza,25,6.27,32.59
+5,Caballito,24,6.02,38.61
+6,Villa Luro,18,4.51,43.12
+7,San Nicolás,16,4.01,47.13
+8,Parque Chacabuco,15,3.76,50.89
+9,Villa Crespo,14,3.51,54.4
+10,Colegiales,13,3.26,57.66
+11,Boedo,13,3.26,60.92
+12,Almagro,12,3.01,63.93
+13,Villa Devoto,12,3.01,66.94
+14,Liniers,10,2.51,69.45
+15,Villa del Parque,10,2.51,71.96
+16,Núñez,9,2.26,74.22
+17,Parque Patricios,9,2.26,76.48
+18,Retiro,8,2.01,78.49
+19,San Telmo,7,1.75,80.24
+20,Chacarita,7,1.75,81.99
+21,Villa General Mitre,7,1.75,83.74
+22,Villa Santa Rita,7,1.75,85.49
+23,Barracas,6,1.5,86.99
+24,Mataderos,5,1.25,88.24
+25,Vélez Sársfield,5,1.25,89.49
+26,Floresta,5,1.25,90.74
+27,Balvanera,5,1.25,91.99
+28,Puerto Madero,4,1.0,92.99
+29,Flores,4,1.0,93.99
+30,Villa Lugano,4,1.0,94.99
+31,Villa Riachuelo,3,0.75,95.74
+32,Versalles,3,0.75,96.49
+33,Saavedra,3,0.75,97.24
+34,Boca,2,0.5,97.74
+35,Constitución,2,0.5,98.24
+36,Parque Avellaneda,2,0.5,98.74
+37,Villa Real,2,0.5,99.24
+38,Coghlan,1,0.25,99.49
+39,Villa Pueyrredón,1,0.25,99.74
+40,Agronomía,1,0.25,99.99
