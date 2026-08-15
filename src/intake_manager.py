@@ -1,155 +1,246 @@
-from pathlib import Path
-from datetime import datetime
-import pandas as pd
+# ============================================================
+# OBSERVATORIO PILATES TRANSVERSO
+# Motor 7.0 — Intake Manager
+# Archivo: intake_manager.py
+# ============================================================
 
-ROOT = Path(__file__).resolve().parents[1]
+import argparse
+import json
 
-SUBMISSIONS = ROOT / "data" / "submissions"
-SUBMISSIONS.mkdir(parents=True, exist_ok=True)
+from draft_store import (
+    create_draft,
+    list_drafts
+)
 
-PENDIENTES = SUBMISSIONS / "pendientes.csv"
-APROBADOS = SUBMISSIONS / "aprobados.csv"
-RECHAZADOS = SUBMISSIONS / "rechazados.csv"
+from validators import (
+    validar_draft
+)
 
-ESTUDIOS = ROOT / "data" / "processed" / "estudios.csv"
+from alias_detector import (
+    detectar_alias,
+    top_candidatos
+)
 
-CAMPOS = [
-    "fecha",
-    "ciudad",
-    "barrio",
-    "nombre_estudio",
-    "direccion",
-    "instagram",
-    "telefono",
-    "email",
-    "responsable",
-    "reformer",
-    "mat",
-    "cadillac",
-    "chair",
-    "barre",
-    "prenatal",
-    "observaciones",
-    "estado"
-]
+from city_config import (
+    available_cities
+)
 
+# ------------------------------------------------------------
+# Alta interactiva
+# ------------------------------------------------------------
 
-def asegurar_csv(path):
+def wizard_alta(city):
 
-    if not path.exists():
+    print("\n" + "="*60)
+    print("NUEVO ESTUDIO")
+    print("="*60)
 
-        pd.DataFrame(columns=CAMPOS).to_csv(
-            path,
-            index=False,
-            encoding="utf-8-sig"
+    payload = {
+
+        "nombre": input("\nNombre del estudio:\n> ").strip(),
+
+        "direccion": input("\nDirección:\n> ").strip(),
+
+        "barrio": input("\nBarrio:\n> ").strip(),
+
+        "telefono": input("\nTeléfono:\n> ").strip(),
+
+        "email": input("\nEmail:\n> ").strip(),
+
+        "instagram": input("\nInstagram:\n> ").strip(),
+
+        "web": input("\nWeb:\n> ").strip(),
+
+        "fabricantes": input("\nFabricantes:\n> ").strip(),
+
+        "observaciones": input("\nObservaciones:\n> ").strip()
+
+    }
+
+    return payload
+
+# ------------------------------------------------------------
+# Mostrar validación
+# ------------------------------------------------------------
+
+def mostrar_validacion(resultado):
+
+    print("\n" + "="*60)
+    print("VALIDACIÓN")
+    print("="*60)
+
+    if resultado["ok"]:
+
+        print("\n✔ Validación general: OK")
+
+    else:
+
+        print("\n✖ Validación general: ERROR")
+
+    if resultado["errores"]:
+
+        print("\nErrores:")
+
+        for e in resultado["errores"]:
+
+            print(" -", e)
+
+    if resultado["advertencias"]:
+
+        print("\nAdvertencias:")
+
+        for a in resultado["advertencias"]:
+
+            print(" -", a)
+
+# ------------------------------------------------------------
+# Alias
+# ------------------------------------------------------------
+
+def mostrar_alias(nombre):
+
+    print("\n" + "="*60)
+    print("DETECTOR DE MARCA")
+    print("="*60)
+
+    alias = detectar_alias(nombre)
+
+    if alias["encontrado"]:
+
+        print(
+            f"\nPosible marca existente:\n"
+            f"{alias['marca']} "
+            f"(score {alias['score']})"
         )
 
+    else:
 
-def agregar_envio(datos):
+        print("\nNo se encontró coincidencia fuerte.")
 
-    asegurar_csv(PENDIENTES)
+    print("\nTop candidatos:")
 
-    df = pd.read_csv(
-        PENDIENTES,
-        encoding="utf-8-sig"
-    )
+    for c in top_candidatos(nombre, 5):
 
-    fila = {c: "" for c in CAMPOS}
-    fila.update(datos)
+        print(
+            f" - {c['marca']} "
+            f"({c['score']})"
+        )
 
-    fila["fecha"] = datetime.now().strftime("%Y-%m-%d")
-    fila["estado"] = "Pendiente"
+# ------------------------------------------------------------
+# Comando ADD
+# ------------------------------------------------------------
 
-    df = pd.concat(
-        [df, pd.DataFrame([fila])],
-        ignore_index=True
-    )
+def cmd_add(city):
 
-    df.to_csv(
-        PENDIENTES,
-        index=False,
-        encoding="utf-8-sig"
-    )
+    payload = wizard_alta(city)
 
+    resultado = validar_draft(city, payload)
 
-def mover(origen, destino, indice, estado):
+    mostrar_validacion(resultado)
 
-    asegurar_csv(origen)
-    asegurar_csv(destino)
+    mostrar_alias(payload["nombre"])
 
-    df = pd.read_csv(origen)
-    out = pd.read_csv(destino)
+    if not resultado["ok"]:
 
-    fila = df.loc[indice].copy()
-    fila["estado"] = estado
+        print(
+            "\nNo puede guardarse "
+            "hasta corregir errores."
+        )
 
-    out = pd.concat(
-        [out, pd.DataFrame([fila])],
-        ignore_index=True
-    )
-
-    df = df.drop(indice).reset_index(drop=True)
-
-    df.to_csv(origen, index=False, encoding="utf-8-sig")
-    out.to_csv(destino, index=False, encoding="utf-8-sig")
-
-
-def aprobar_envio(indice):
-
-    mover(
-        PENDIENTES,
-        APROBADOS,
-        indice,
-        "Publicado"
-    )
-
-
-def rechazar_envio(indice):
-
-    mover(
-        PENDIENTES,
-        RECHAZADOS,
-        indice,
-        "Rechazado"
-    )
-
-
-def integrar_aprobados():
-
-    asegurar_csv(APROBADOS)
-
-    nuevos = pd.read_csv(APROBADOS)
-    estudios = pd.read_csv(ESTUDIOS)
-
-    if nuevos.empty:
-
-        print("No hay estudios aprobados.")
         return
 
-    estudios = pd.concat(
-        [estudios, nuevos],
-        ignore_index=True
+    guardar = input(
+        "\nGuardar draft? (S/N)\n> "
+    ).strip().lower()
+
+    if guardar != "s":
+
+        print("\nOperación cancelada.")
+        return
+
+    draft = create_draft(
+
+        city,
+
+        resultado["normalizado"]
+
     )
 
-    estudios.to_csv(
-        ESTUDIOS,
-        index=False,
-        encoding="utf-8-sig"
+    print("\n" + "="*60)
+    print("DRAFT CREADO")
+    print("="*60)
+
+    print(
+        f"\nID: {draft['draft_id']}"
     )
 
-    nuevos.iloc[0:0].to_csv(
-        APROBADOS,
-        index=False,
-        encoding="utf-8-sig"
+# ------------------------------------------------------------
+# Comando LIST
+# ------------------------------------------------------------
+
+def cmd_list(city):
+
+    drafts = list_drafts(city)
+
+    print("\n" + "="*60)
+    print("DRAFTS")
+    print("="*60)
+
+    if not drafts:
+
+        print("\nSin registros.")
+        return
+
+    for d in drafts:
+
+        print(
+            f"{d['draft_id']} | "
+            f"{d['estado']} | "
+            f"{d['nombre']}"
+        )
+
+# ------------------------------------------------------------
+# Main
+# ------------------------------------------------------------
+
+def main():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+
+        "accion",
+
+        choices=["add", "list"]
+
     )
 
-    print("Estudios integrados correctamente.")
+    parser.add_argument(
 
+        "--city",
+
+        default="caba"
+
+    )
+
+    args = parser.parse_args()
+
+    if args.city not in available_cities():
+
+        raise ValueError(
+            f"Ciudad inválida: {args.city}"
+        )
+
+    if args.accion == "add":
+
+        cmd_add(args.city)
+
+    elif args.accion == "list":
+
+        cmd_list(args.city)
+
+# ------------------------------------------------------------
 
 if __name__ == "__main__":
 
-    asegurar_csv(PENDIENTES)
-    asegurar_csv(APROBADOS)
-    asegurar_csv(RECHAZADOS)
-
-    print("Sistema editorial listo.")
+    main()

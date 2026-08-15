@@ -1,9 +1,9 @@
 ﻿id_estudio,id_marca,nombre_marca
 EST-0001,134,Fusión Pilates Palermo
 EST-0002,143,Glow Pilates Studio
-EST-0003,343,Tu Mundo Pilates
+EST-0003,344,Tu Mundo Pilates
 EST-0004,126,Fabiana Tallarico
-EST-0005,294,Plaza Pilates
+EST-0005,295,Plaza Pilates
 EST-0006,70,Club Palermo Pilates
 EST-0007,149,Hawa Fitness Pilates Studio
 EST-0008,2,"@Vyfpilates, Pilates"
@@ -18,13 +18,13 @@ EST-0016,110,Espiralado
 EST-0017,234,Oxzen Pilates
 EST-0018,206,Mood Pilates Reformer
 EST-0019,235,Palace Pilates
-EST-0020,270,Pilates Integral
+EST-0020,271,Pilates Integral
 EST-0021,50,Body Fit - Pilates Contemporaneo
 EST-0022,247,Pilates Baraka
 EST-0023,68,Clic Pilates Palermo Hollywood
 EST-0024,184,Lotuszen Pilates
-EST-0025,286,Pilates Umano
-EST-0026,344,Udana Pilates Studio
+EST-0025,287,Pilates Umano
+EST-0026,345,Udana Pilates Studio
 EST-0027,221,Naos Pilates Studio
 EST-0028,37,Balance Pilates
 EST-0029,168,Kaibliss | Yoga & Wellness
@@ -33,24 +33,24 @@ EST-0031,222,Naroa Pilates
 EST-0032,82,Dash Pilates & Yoga
 EST-0033,30,Attic - Pilates & Barre Studio
 EST-0034,211,Mp Pilates
-EST-0035,267,Pilates Hiit
-EST-0036,302,Quequi Pilates
-EST-0037,301,Puravida Pilates
+EST-0035,268,Pilates Hiit
+EST-0036,303,Quequi Pilates
+EST-0037,302,Puravida Pilates
 EST-0038,252,Pilates Clásico - Raquel Sosa Estudio
-EST-0039,297,Powerhouse Pilates
-EST-0040,262,Pilates Flow
-EST-0041,340,Toulouse Pilates Palermo
+EST-0039,298,Powerhouse Pilates
+EST-0040,263,Pilates Flow
+EST-0041,341,Toulouse Pilates Palermo
 EST-0042,124,Eutónico Pilates
 EST-0043,83,Ddb Pilates
-EST-0044,298,Pramana Pilates Studio
-EST-0045,343,Tu Mundo Pilates
+EST-0044,299,Pramana Pilates Studio
+EST-0045,344,Tu Mundo Pilates
 EST-0046,44,Bg Pilates Barrio Norte
 EST-0047,162,Jaz Cherbenco Pilates Clásico
 EST-0048,190,Mamiwata Pilates Reformer
-EST-0049,337,The Pilates Studio
+EST-0049,338,The Pilates Studio
 EST-0050,121,Etnya Pilates
 EST-0051,26,Armonia Pilates
-EST-0052,342,Tu Espacio De Pilates Y Estética
+EST-0052,343,Tu Espacio De Pilates Y Estética
 EST-0053,97,Espacio Activa Primera Junta
 EST-0054,3,Ac Atelier Pilates
 EST-0055,51,Body Life Pilates
@@ -67,35 +67,35 @@ EST-0065,249,"Pilates By Core - Caballito, Directorio"
 EST-0066,36,Ba Pilates Caballito
 EST-0067,241,Philautía Pilates
 EST-0068,17,Ambika Caballito
-EST-0069,264,Pilates Flow Hidalgo
-EST-0070,259,Pilates Estudio & Entrenamiento
-EST-0071,341,Triskel Wellness Center
-EST-0072,365,Zona Pilates
+EST-0069,265,Pilates Flow Hidalgo
+EST-0070,260,Pilates Estudio & Entrenamiento
+EST-0071,342,Triskel Wellness Center
+EST-0072,366,Zona Pilates
 EST-0073,8,Alfa&Omega Pilates
 EST-0074,231,Ossom Pilates
 EST-0075,52,Bsm Pilates
 EST-0076,217,Muv Pilates Belgrano
 EST-0077,256,Pilates Delpino
 EST-0078,192,Maori Pilates
-EST-0079,261,Pilates Fit
+EST-0079,262,Pilates Fit
 EST-0080,42,Be Pilates
 EST-0081,45,Bicca Pilates Studio
-EST-0082,299,Prana House - Yoga & Pilates
-EST-0083,320,Soho Pilates
+EST-0082,300,Prana House - Yoga & Pilates
+EST-0083,321,Soho Pilates
 EST-0084,254,Pilates Coy
 EST-0085,119,Estudio Pilates Zen
 EST-0086,201,Met Pilates Club
-EST-0087,276,Pilates Menta
+EST-0087,277,Pilates Menta
 EST-0088,171,Kenko Pilates
 EST-0089,38,Barre Estudio
-EST-0090,356,Vita Terapia Corporal
-EST-0091,284,Pilates Studio Benessere
-EST-0092,349,Vení A Pilates Estudio
-EST-0093,367,Ágape Unisex Pilates
+EST-0090,357,Vita Terapia Corporal
+EST-0091,285,Pilates Studio Benessere
+EST-0092,350,Vení A Pilates Estudio
+EST-0093,368,Ágape Unisex Pilates
 EST-0094,95,Equmm Gimnasias & Pilates
-EST-0095,368,Âme Pilates Body Ballet
+EST-0095,369,Âme Pilates Body Ballet
 EST-0096,216,Mundo Pilates Belgrano
-EST-0097,350,Vibra Pilates
+EST-0097,351,Vibra Pilates
 EST-0098,232,Ostudio Pilates Y Más
 EST-0099,178,Le Mouvement Parfait
 EST-0100,98,Espacio Balance
@@ -105,85 +105,85 @@ EST-0103,250,"Pilates By Core - Recoleta, Mansilla"
 EST-0104,32,Aura Pilates Recoleta
 EST-0105,144,Go Fit Pilates Recoleta
 EST-0106,205,Mon Rêve Pilates
-EST-0107,368,Âme Pilates Body Ballet
-EST-0108,325,Soulpilates
+EST-0107,369,Âme Pilates Body Ballet
+EST-0108,326,Soulpilates
 EST-0109,19,Ameray Pilates
 EST-0110,233,Otis Pilates
 EST-0111,214,Ms Pilates
 EST-0112,256,Pilates Delpino
 EST-0113,200,Meraki Yoga & Pilates
-EST-0114,330,Studio Recoleta Pilates
+EST-0114,331,Studio Recoleta Pilates
 EST-0115,93,Epiler Recoleta
-EST-0116,315,"Ser Zen Barre, Pilates Y Yoga"
+EST-0116,316,"Ser Zen Barre, Pilates Y Yoga"
 EST-0117,160,Integral Pilates
 EST-0118,105,Espacio Luz Pilates Clasico
 EST-0119,134,Fusión Pilates Palermo
-EST-0120,308,Rona Pilates Reformer Recoleta
+EST-0120,309,Rona Pilates Reformer Recoleta
 EST-0121,251,Pilates Club
-EST-0122,331,Studio Secret To Live
+EST-0122,332,Studio Secret To Live
 EST-0123,23,Anima Estudio Pilates
 EST-0124,140,Genkiro Studio Recoleta
 EST-0125,15,Amazonia Pilates
 EST-0126,224,Nexo Pilates & Therapy Recoleta
 EST-0127,204,Modo Pilates Barrio Norte
-EST-0128,280,Pilates Más Actividad Sucursal Recoleta
+EST-0128,281,Pilates Más Actividad Sucursal Recoleta
 EST-0129,161,Jalupilates
 EST-0130,188,Maison Pilates & Wellness
-EST-0131,292,Pilatisa Tu Vida
+EST-0131,293,Pilatisa Tu Vida
 EST-0132,85,Desirée Centro De Estetica Y Pilates
 EST-0133,28,Art Pilates
 EST-0134,186,Madero Soul
-EST-0135,278,Pilates Motus Tacuari
-EST-0136,324,Soma Pilates
-EST-0137,313,Sankalpa Pilates Y Yoga
+EST-0135,279,Pilates Motus Tacuari
+EST-0136,325,Soma Pilates
+EST-0137,314,Sankalpa Pilates Y Yoga
 EST-0138,41,Be Balance Studiopilates Microcentro
 EST-0139,173,Kumara Pilates & Fit Barre
 EST-0140,170,Kalon Pilates Reformer
 EST-0141,56,Casa De Movimiento Pilates Studio
 EST-0142,107,Espacio Raíz Pilates Y Yoga
-EST-0143,309,S Circuit Pilates Reformer
-EST-0144,336,Teseo.Pilates Funcional
-EST-0145,282,Pilates Postural Y Estiramiento Vk
-EST-0146,304,Releve Pilates
+EST-0143,310,S Circuit Pilates Reformer
+EST-0144,337,Teseo.Pilates Funcional
+EST-0145,283,Pilates Postural Y Estiramiento Vk
+EST-0146,305,Releve Pilates
 EST-0147,109,Espiral Pilates
-EST-0148,335,Teseo | Pilates Funcional
+EST-0148,336,Teseo | Pilates Funcional
 EST-0149,25,Arena Pilates
 EST-0150,34,Ayla Studio Pilates
-EST-0151,296,Plena Pilates
-EST-0152,352,Vic Pilates Arg
+EST-0151,297,Plena Pilates
+EST-0152,353,Vic Pilates Arg
 EST-0153,198,Mdc Pilates
 EST-0154,51,Body Life Pilates
-EST-0155,280,Pilates Más Actividad Sucursal Recoleta
+EST-0155,281,Pilates Más Actividad Sucursal Recoleta
 EST-0156,5,"Aires Up! Fitness Y Pilates, Sede Barrio Norte"
 EST-0157,31,Aura Pilates
 EST-0158,34,Ayla Studio Pilates
 EST-0159,196,Mas Cerca Pilates
 EST-0160,39,Bayres Pilates Studio
-EST-0161,300,Prisma Pilates
-EST-0162,291,Pilateá Con Mar
+EST-0161,301,Prisma Pilates
+EST-0162,292,Pilateá Con Mar
 EST-0163,90,El Loft San Telmo - Pilates Y Estética
-EST-0164,311,San Telmo Pilates
+EST-0164,312,San Telmo Pilates
 EST-0165,123,Etéreo Pilates
 EST-0166,84,Desde Laura
-EST-0167,318,Sf Pilates La Boca
-EST-0168,334,Tan Tiem Pilates
-EST-0169,283,Pilates Studio - Sede Barracas
+EST-0167,319,Sf Pilates La Boca
+EST-0168,335,Tan Tiem Pilates
+EST-0169,284,Pilates Studio - Sede Barracas
 EST-0170,35,Ayres De Barracas Pilates
 EST-0171,64,Cep - Centro De Estetica & Pilates - Barracas
 EST-0172,77,Cuerpo En Alba Pilates
 EST-0173,76,Crezia Pilates & Yoga
 EST-0174,195,María Rego Pilates
 EST-0175,213,Mr Pilates Reformer @Mrpilatesreformer
-EST-0176,293,Piuké Pilates Boedo
-EST-0177,353,Vida Pilates
+EST-0176,294,Piuké Pilates Boedo
+EST-0177,354,Vida Pilates
 EST-0178,131,Full Pilates Castro
 EST-0179,132,Full Pilates Muñiz
 EST-0180,7,Alfa Pilates
 EST-0181,78,Cuerpo Saludable Pilates
 EST-0182,164,Josefa Pilatesestudio
 EST-0183,61,Centro Pilates Time
-EST-0184,355,Vita Pilates Studio
-EST-0185,323,Sol Salud
+EST-0184,356,Vita Pilates Studio
+EST-0185,324,Sol Salud
 EST-0186,99,Espacio Caracol Pilates
 EST-0187,92,Entre Ríos Pilates
 EST-0188,199,Meraki Bienestar - Pilates Reformer Y Actividades Posturales
@@ -193,10 +193,10 @@ EST-0191,242,Pila Pilates
 EST-0192,117,Estudio Hara
 EST-0193,211,Mp Pilates
 EST-0194,89,El Estudio
-EST-0195,266,Pilates Grow @Pilatesgrowar
-EST-0196,272,Pilates Line
+EST-0195,267,Pilates Grow @Pilatesgrowar
+EST-0196,273,Pilates Line
 EST-0197,229,Oma Ba - Pilates & Yoga
-EST-0198,327,Spa Pilates
+EST-0198,328,Spa Pilates
 EST-0199,244,Pilates Aroha
 EST-0200,62,Centropilates Ba Núñez
 EST-0201,158,Imperio Pilates Studio
@@ -207,79 +207,79 @@ EST-0205,185,Ludemma Pilates Y Yoga
 EST-0206,167,Jvs Pilates
 EST-0207,181,Life Pilates
 EST-0208,47,Bive Pilates
-EST-0209,316,Seruno Pilates Reforme
-EST-0210,357,Vital Pilates
+EST-0209,317,Seruno Pilates Reforme
+EST-0210,358,Vital Pilates
 EST-0211,54,Carpe Diem Pilates Clásico
 EST-0212,155,Ikal
 EST-0213,116,Estudio Del Sur Pilates
 EST-0214,239,Patricia Pilates Castillo
 EST-0215,225,Non Solo Pilates
 EST-0216,179,Leitmotiv Pilates
-EST-0217,347,Valestar Bien
-EST-0218,361,Yoga Y Pilates
+EST-0217,348,Valestar Bien
+EST-0218,362,Yoga Y Pilates
 EST-0219,100,Espacio Compromiso Bienestar
 EST-0220,111,Estetica Glow
 EST-0221,60,Centro Pilates Buenos Aires
-EST-0222,345,Umana Pilates Caballito
-EST-0223,346,V.A. Pilates & Stretching
-EST-0224,275,Pilates Mat Y Reformer Bio Gym
-EST-0225,326,Soy Pilates
-EST-0226,322,Sol Pilates
+EST-0222,346,Umana Pilates Caballito
+EST-0223,347,V.A. Pilates & Stretching
+EST-0224,276,Pilates Mat Y Reformer Bio Gym
+EST-0225,327,Soy Pilates
+EST-0226,323,Sol Pilates
 EST-0227,191,Mantra Yoga Y Pilates
-EST-0228,317,Seruno • Pilates Reformer
-EST-0229,285,Pilates Studio Sabrina Feal
+EST-0228,318,Seruno • Pilates Reformer
+EST-0229,286,Pilates Studio Sabrina Feal
 EST-0230,48,Bive Pilates Villa Luro
-EST-0231,348,Valu Pilates Reformer Funcional
-EST-0232,362,Yoga Y Pilates Villa Luro
+EST-0231,349,Valu Pilates Reformer Funcional
+EST-0232,363,Yoga Y Pilates Villa Luro
 EST-0233,182,Lina Pilates
 EST-0234,1,206 Pilates Studio
-EST-0235,333,Sukha Pilates Core Center
+EST-0235,334,Sukha Pilates Core Center
 EST-0236,202,Mikigai Pilates
-EST-0237,258,Pilates En Circuito Sd Versalles
+EST-0237,259,Pilates En Circuito Sd Versalles
 EST-0238,255,Pilates Del Ángel By Maca Ardanaz
 EST-0239,148,"Haus, Casa De Pilates"
 EST-0240,236,Palacio Fit
 EST-0241,101,Espacio Fit
-EST-0242,369,Étoile Pilates Studio
+EST-0242,370,Étoile Pilates Studio
 EST-0243,120,Estudio Taoyqi
 EST-0244,212,Mr Pilates Reformer @Mrpilatesreforme
 EST-0245,238,Paloma Pilates
 EST-0246,203,Miriang.- Espacio De Pilates
-EST-0247,263,Pilates Flow Chacabuco
+EST-0247,264,Pilates Flow Chacabuco
 EST-0248,228,Oasis Pilates
 EST-0249,147,Ha! Pilates Y Bienestar
-EST-0250,338,Toulouse Pilates Chacabuco
-EST-0251,354,Vidamí Pilates Mat
-EST-0252,360,Yb Estudio Pilates
+EST-0250,339,Toulouse Pilates Chacabuco
+EST-0251,355,Vidamí Pilates Mat
+EST-0252,361,Yb Estudio Pilates
 EST-0253,21,Ananda Pilates
 EST-0254,122,Etnya Pilates Craig
-EST-0255,351,Vibra Pilates Consiente
+EST-0255,352,Vibra Pilates Consiente
 EST-0256,163,Joa Estudio De Pilates
 EST-0257,219,Mwd
 EST-0258,145,Gran Cóndor Fitness
-EST-0259,363,Yola_Juana
+EST-0259,364,Yola_Juana
 EST-0260,175,Kyo Pilates
-EST-0261,319,Shyvana Pilates
+EST-0261,320,Shyvana Pilates
 EST-0262,197,Maximo Pilates
 EST-0263,49,Bloom Pilates
-EST-0264,339,Toulouse Pilates Colegiales
+EST-0264,340,Toulouse Pilates Colegiales
 EST-0265,14,Alquimia Pilates
 EST-0266,106,Espacio Mat - Clases Online De Pilates - Elongación - Yoga
-EST-0267,260,Pilates Estudio Mcm
+EST-0267,261,Pilates Estudio Mcm
 EST-0268,74,Corpo Método Pilates
 EST-0269,10,Alma Move It. Espacio Integral De Técnicas Corporales Conscientes
 EST-0270,141,Gimnasia Postural Global Daniela Pérsico
 EST-0271,142,Gimnasio Plaza Lou
 EST-0272,91,Energía Vital
-EST-0273,366,~Kale~ Pilates&Nutrición
+EST-0273,367,~Kale~ Pilates&Nutrición
 EST-0274,20,Ampilates.Estudio
-EST-0275,358,Vitalife Pilates
+EST-0275,359,Vitalife Pilates
 EST-0276,98,Espacio Balance
-EST-0277,303,Raisa Pilates
+EST-0277,304,Raisa Pilates
 EST-0278,166,Justa Pilates
 EST-0279,94,Equm
 EST-0280,118,Estudio Naapura
-EST-0281,359,Vive!Pilates Estudio
+EST-0281,360,Vive!Pilates Estudio
 EST-0282,157,Imperio Pilates Chacarita
 EST-0283,113,Estudio Core Ba Pilates
 EST-0284,243,Pilates 2X4
@@ -290,21 +290,21 @@ EST-0288,115,Estudio De Pilates Diem
 EST-0289,130,Fluxus Pilates
 EST-0290,125,F&S Pilates Studio
 EST-0291,152,Holística Yoga & Pilates
-EST-0292,364,Zentir Pilates Reformer
+EST-0292,365,Zentir Pilates Reformer
 EST-0293,177,La Pilateria De Almagro
 EST-0294,27,Armonía'S Pilates
-EST-0295,265,Pilates Funcional By Gi
+EST-0295,266,Pilates Funcional By Gi
 EST-0296,165,Juan Sosa Pilates Estudió
 EST-0297,174,Kuyén Club | Pilates Reformer Hipff | Energía Y Movimiento Que Transforma
 EST-0298,65,Chysalis
 EST-0299,58,Casa Encuentro - Pilates & Flex
-EST-0300,268,Pilates Home
+EST-0300,269,Pilates Home
 EST-0301,102,Espacio Gud Pilates
-EST-0302,269,Pilates House Studio
-EST-0303,329,Studio Ac_ Pilates Reformer
+EST-0302,270,Pilates House Studio
+EST-0303,330,Studio Ac_ Pilates Reformer
 EST-0304,112,Estilo Devoto Pilates
 EST-0305,136,G Pilates Studio
-EST-0306,312,Sandra Martínez Auténtico Pilates
+EST-0306,313,Sandra Martínez Auténtico Pilates
 EST-0307,128,Fit Studio Pilates
 EST-0308,209,Move Pilates Devoto
 EST-0309,103,Espacio Haya
@@ -319,71 +319,71 @@ EST-0317,53,Calupi Estudio
 EST-0318,245,Pilates Aroha Villa Del Parque
 EST-0319,81,Danez Pilates & Funcional
 EST-0320,57,Casa Dynamo Pilates
-EST-0321,281,Pilates Más Actividad Sucursal Villa Del Parque
+EST-0321,282,Pilates Más Actividad Sucursal Villa Del Parque
 EST-0322,129,Flow Pilates Estudio
 EST-0323,73,Conscious Studio Pilates
 EST-0324,16,Ambar Wellness -Pilates
 EST-0325,223,Neto Pilates
 EST-0326,176,La Donata Pilates
-EST-0327,273,Pilates Mahara
-EST-0328,332,Studio Smile Pilates
+EST-0327,274,Pilates Mahara
+EST-0328,333,Studio Smile Pilates
 EST-0329,80,Cuore Pilates
 EST-0330,172,Ks Estudio Pilates
-EST-0331,277,Pilates Mep
+EST-0331,278,Pilates Mep
 EST-0332,169,Kairos Pilates Y Yoga
-EST-0333,305,Rincon Del Alma Pilates
+EST-0333,306,Rincon Del Alma Pilates
 EST-0334,40,Bb. Estudio
 EST-0335,183,Linda Para Vos - Pilates & Spa
 EST-0336,248,Pilates Bren
-EST-0337,274,Pilates Marina
-EST-0338,321,Sol Azteca Pilates
+EST-0337,275,Pilates Marina
+EST-0338,322,Sol Azteca Pilates
 EST-0339,158,Imperio Pilates Studio
 EST-0340,135,Fémina Estudio
 EST-0341,29,Arte Pilates
 EST-0342,55,Casa Amarilla Pilates Y Masajes
 EST-0343,88,El Atelier Pilates
 EST-0344,227,Nuevo Pilates Urquiza
-EST-0345,288,Pilates Valma
+EST-0345,289,Pilates Valma
 EST-0346,71,Colmao De Pilates
-EST-0347,295,Plena Estudio De Danzas Y Pilates
+EST-0347,296,Plena Estudio De Danzas Y Pilates
 EST-0348,127,Feel Good
-EST-0349,279,Pilates Muta
+EST-0349,280,Pilates Muta
 EST-0350,67,Claudia Pilates Y Kobido
-EST-0351,307,Roma Pilates & Coffee
+EST-0351,308,Roma Pilates & Coffee
 EST-0352,153,Hono Studio
-EST-0353,289,Pilates Villa Crespo
-EST-0354,271,Pilates Ki
-EST-0355,306,Rizoma Pilates
+EST-0353,290,Pilates Villa Crespo
+EST-0354,272,Pilates Ki
+EST-0355,307,Rizoma Pilates
 EST-0356,180,Levy Pilates
-EST-0357,314,Sayen Pilates & Spa
-EST-0358,310,Samsara Pilates Villa Crespo
+EST-0357,315,Sayen Pilates & Spa
+EST-0358,311,Samsara Pilates Villa Crespo
 EST-0359,59,Centro Byb
-EST-0360,257,Pilates Dynamov
+EST-0360,258,Pilates Dynamov
 EST-0361,79,Cuerpoespiral - Pilates Personalizado
-EST-0362,328,Spacio Zeta Pilates Boot Camp
+EST-0362,329,Spacio Zeta Pilates Boot Camp
 EST-0363,24,Aprile Pilates
 EST-0364,150,Health Studio Ar
 EST-0365,46,Bienestar En Movimiento
 EST-0366,114,Estudio Corporeum
-EST-0367,317,Seruno • Pilates Reformer
-EST-0368,285,Pilates Studio Sabrina Feal
+EST-0367,318,Seruno • Pilates Reformer
+EST-0368,286,Pilates Studio Sabrina Feal
 EST-0369,48,Bive Pilates Villa Luro
-EST-0370,348,Valu Pilates Reformer Funcional
-EST-0371,362,Yoga Y Pilates Villa Luro
+EST-0370,349,Valu Pilates Reformer Funcional
+EST-0371,363,Yoga Y Pilates Villa Luro
 EST-0372,182,Lina Pilates
 EST-0373,151,Hema Pilates
 EST-0374,49,Bloom Pilates
 EST-0375,60,Centro Pilates Buenos Aires
-EST-0376,345,Umana Pilates Caballito
-EST-0377,357,Vital Pilates
+EST-0376,346,Umana Pilates Caballito
+EST-0377,358,Vital Pilates
 EST-0378,1,206 Pilates Studio
-EST-0379,333,Sukha Pilates Core Center
-EST-0380,258,Pilates En Circuito Sd Versalles
+EST-0379,334,Sukha Pilates Core Center
+EST-0380,259,Pilates En Circuito Sd Versalles
 EST-0381,148,"Haus, Casa De Pilates"
-EST-0382,290,Pilates Y Entrenamiento
+EST-0382,291,Pilates Y Entrenamiento
 EST-0383,12,Alma Pilates Gaona-Estetica
 EST-0384,139,Gd Pilates & Elongacion By Marce Vaisberg
-EST-0385,287,Pilates V&Vos
+EST-0385,288,Pilates V&Vos
 EST-0386,189,Malú Pilates
 EST-0387,57,Casa Dynamo Pilates
 EST-0388,72,Columpylates
@@ -396,5 +396,6 @@ EST-0394,240,Paulypilates
 EST-0395,4,Accio Estudio - Danza Y Pilates
 EST-0396,230,Onira Pilates
 EST-0397,202,Mikigai Pilates
-EST-0398,353,Vida Pilates
+EST-0398,354,Vida Pilates
 EST-0399,33,Aural Studio Pilates
+EST-0400,257,Pilates Demo Belgrano
