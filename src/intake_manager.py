@@ -1,29 +1,32 @@
 # ============================================================
 # OBSERVATORIO PILATES TRANSVERSO
-# Motor 7.0 — Intake Manager
+# Motor 7.3 — Intake Manager
 # Archivo: intake_manager.py
+#
+# Alta editorial con:
+# - Validación
+# - Detector de marca
+# - Duplicate Guard (DM-017)
 # ============================================================
 
 import argparse
-import json
 
 from draft_store import (
     create_draft,
     list_drafts
 )
 
-from validators import (
-    validar_draft
-)
+from validators import validar_draft
 
 from alias_detector import (
     detectar_alias,
     top_candidatos
 )
 
-from city_config import (
-    available_cities
-)
+from duplicate_guard import buscar
+
+from city_config import available_cities
+
 
 # ------------------------------------------------------------
 # Alta interactiva
@@ -31,9 +34,9 @@ from city_config import (
 
 def wizard_alta(city):
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("NUEVO ESTUDIO")
-    print("="*60)
+    print("=" * 60)
 
     payload = {
 
@@ -59,15 +62,16 @@ def wizard_alta(city):
 
     return payload
 
+
 # ------------------------------------------------------------
 # Mostrar validación
 # ------------------------------------------------------------
 
 def mostrar_validacion(resultado):
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("VALIDACIÓN")
-    print("="*60)
+    print("=" * 60)
 
     if resultado["ok"]:
 
@@ -82,7 +86,6 @@ def mostrar_validacion(resultado):
         print("\nErrores:")
 
         for e in resultado["errores"]:
-
             print(" -", e)
 
     if resultado["advertencias"]:
@@ -90,18 +93,18 @@ def mostrar_validacion(resultado):
         print("\nAdvertencias:")
 
         for a in resultado["advertencias"]:
-
             print(" -", a)
 
+
 # ------------------------------------------------------------
-# Alias
+# Detector de marca
 # ------------------------------------------------------------
 
 def mostrar_alias(nombre):
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("DETECTOR DE MARCA")
-    print("="*60)
+    print("=" * 60)
 
     alias = detectar_alias(nombre)
 
@@ -109,8 +112,7 @@ def mostrar_alias(nombre):
 
         print(
             f"\nPosible marca existente:\n"
-            f"{alias['marca']} "
-            f"(score {alias['score']})"
+            f"{alias['marca']} (score {alias['score']})"
         )
 
     else:
@@ -121,13 +123,55 @@ def mostrar_alias(nombre):
 
     for c in top_candidatos(nombre, 5):
 
-        print(
-            f" - {c['marca']} "
-            f"({c['score']})"
-        )
+        print(f" - {c['marca']} ({c['score']})")
+
 
 # ------------------------------------------------------------
-# Comando ADD
+# Duplicate Guard
+# ------------------------------------------------------------
+
+def mostrar_duplicate_guard(datos):
+
+    dup = buscar(
+
+        datos["nombre"],
+        datos["direccion"],
+        datos["barrio"]
+
+    )
+
+    if not dup["duplicado"]:
+
+        return True
+
+    print("\n" + "=" * 60)
+    print("DUPLICATE GUARD")
+    print("=" * 60)
+
+    print("\nSe encontraron posibles coincidencias:\n")
+
+    for c in dup["coincidencias"]:
+
+        print(
+            f"• {c['id_estudio']} | "
+            f"{c['nombre']} | "
+            f"{c['barrio']}"
+        )
+
+        print(f"  {c['direccion']}")
+        print(f"  Coincidencia: {c['score']:.0f}% ({c['tipo']})\n")
+
+    print("Opciones:")
+    print("1) Cancelar")
+    print("2) Continuar igualmente")
+
+    opcion = input("> ").strip()
+
+    return opcion == "2"
+
+
+# ------------------------------------------------------------
+# ADD
 # ------------------------------------------------------------
 
 def cmd_add(city):
@@ -138,53 +182,48 @@ def cmd_add(city):
 
     mostrar_validacion(resultado)
 
-    mostrar_alias(payload["nombre"])
-
     if not resultado["ok"]:
 
-        print(
-            "\nNo puede guardarse "
-            "hasta corregir errores."
-        )
-
+        print("\nNo puede guardarse hasta corregir errores.")
         return
 
-    guardar = input(
-        "\nGuardar draft? (S/N)\n> "
-    ).strip().lower()
+    datos = resultado["normalizado"]
+
+    mostrar_alias(datos["nombre"])
+
+    # ---------- Duplicate Guard ----------
+    if not mostrar_duplicate_guard(datos):
+
+        print("\nOperación cancelada.")
+        return
+
+    guardar = input("\nGuardar draft? (S/N)\n> ").strip().lower()
 
     if guardar != "s":
 
         print("\nOperación cancelada.")
         return
 
-    draft = create_draft(
+    draft = create_draft(city, datos)
 
-        city,
-
-        resultado["normalizado"]
-
-    )
-
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("DRAFT CREADO")
-    print("="*60)
+    print("=" * 60)
 
-    print(
-        f"\nID: {draft['draft_id']}"
-    )
+    print(f"\nID: {draft['draft_id']}")
+
 
 # ------------------------------------------------------------
-# Comando LIST
+# LIST
 # ------------------------------------------------------------
 
 def cmd_list(city):
 
     drafts = list_drafts(city)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("DRAFTS")
-    print("="*60)
+    print("=" * 60)
 
     if not drafts:
 
@@ -193,14 +232,11 @@ def cmd_list(city):
 
     for d in drafts:
 
-        print(
-            f"{d['draft_id']} | "
-            f"{d['estado']} | "
-            f"{d['nombre']}"
-        )
+        print(f"{d['draft_id']} | {d['estado']} | {d['nombre']}")
+
 
 # ------------------------------------------------------------
-# Main
+# MAIN
 # ------------------------------------------------------------
 
 def main():
@@ -227,9 +263,7 @@ def main():
 
     if args.city not in available_cities():
 
-        raise ValueError(
-            f"Ciudad inválida: {args.city}"
-        )
+        raise ValueError(f"Ciudad inválida: {args.city}")
 
     if args.accion == "add":
 
@@ -238,6 +272,7 @@ def main():
     elif args.accion == "list":
 
         cmd_list(args.city)
+
 
 # ------------------------------------------------------------
 

@@ -8,6 +8,12 @@ from pathlib import Path
 from datetime import datetime
 import argparse
 import subprocess
+from draft_store import (
+    load_draft,
+    save_draft,
+    append_history,
+    list_drafts
+)
 
 import pandas as pd
 
@@ -19,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PROCESSED = ROOT / "data" / "processed"
 
 FEATURES_PATH = PROCESSED / "estudios_features.csv"
+REPORT_SCRIPT = ROOT / "src" / "report_builder.py"
 
 
 # ------------------------------------------------------------
@@ -45,9 +52,6 @@ def siguiente_id_estudio():
     return f"EST-{ultimo+1:04d}"
 
 
-# ------------------------------------------------------------
-# Construir fila oficial
-# ------------------------------------------------------------
 # ------------------------------------------------------------
 # Construir fila oficial (esquema Motor 2)
 # ------------------------------------------------------------
@@ -221,6 +225,7 @@ def publicar(city, draft_id):
         ejecutar("rebuild_marcas.py")
         ejecutar("load_database.py")
         ejecutar("dashboard_builder.py")
+        ejecutar("report_builder.py")
 
     except Exception as e:
 
@@ -265,8 +270,18 @@ def publicar(city, draft_id):
     print(f"\nDraft............. {draft_id}")
     print(f"Estudio.......... {est_id}")
     print("Estado........... published")
+
+    print("\nProductos actualizados:")
+    print("   ✓ Base Maestra")
+    print("   ✓ SQLite")
+    print("   ✓ Dashboard Editorial")
+    print("   ✓ Intelligence Report (PDF)")
 # ------------------------------------------------------------
-# Main
+# MAIN
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# MAIN
 # ------------------------------------------------------------
 
 def main():
@@ -274,25 +289,15 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-
         "accion",
-
         choices=["approve"]
-
     )
 
-    parser.add_argument(
-
-        "draft_id"
-
-    )
+    parser.add_argument("draft_id")
 
     parser.add_argument(
-
         "--city",
-
         default="caba"
-
     )
 
     args = parser.parse_args()
@@ -301,15 +306,41 @@ def main():
 
     if args.accion == "approve":
 
-        publicar(
+        try:
 
-            args.city,
+            publicar(
+                args.city,
+                args.draft_id
+            )
 
-            args.draft_id
+        except FileNotFoundError:
 
-        )
+            print("\n" + "="*60)
+            print("PUBLICACIÓN")
+            print("="*60)
+
+            print(f"\nNo existe el draft: {args.draft_id}")
+
+            print("\nDrafts disponibles:\n")
+
+            drafts = list_drafts(args.city)
+
+            if not drafts:
+
+                print("   (sin drafts)")
+
+            else:
+
+                for d in drafts:
+
+                    print(
+                        f"   {d['draft_id']} | "
+                        f"{d['estado']} | "
+                        f"{d['nombre']}"
+                    )
+
+            return
 
 
 if __name__ == "__main__":
-
-    main()
+    main()      

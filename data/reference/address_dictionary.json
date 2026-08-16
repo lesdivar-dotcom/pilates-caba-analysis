@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "updated": "2026-08-16",
+  "prefijos": {
+    "avenida": "av",
+    "av.": "av",
+    "av": "av",
+
+    "calle": "calle",
+    "c/": "calle",
+    "cl.": "calle",
+
+    "boulevard": "bv",
+    "bulevar": "bv",
+    "bv.": "bv",
+    "bv": "bv",
+
+    "coronel": "cnel",
+    "cnel.": "cnel",
+    "cnel": "cnel",
+
+    "general": "gral",
+    "gral.": "gral",
+    "gral": "gral",
+
+    "doctor": "dr",
+    "dr.": "dr",
+    "dr": "dr",
+
+    "ingeniero": "ing",
+    "ing.": "ing",
+    "ing": "ing"
+  },
+
+  "eliminar": [
+    "n°",
+    "nº",
+    "no.",
+    "#"
+  ],
+
+  "calles": {
+
+    "coronel diaz": "cnel diaz",
+    "cnel diaz": "cnel diaz",
+
+    "jose e uriburu": "jose e uriburu",
+    "j. e. uriburu": "jose e uriburu",
+
+    "cabildo": "av cabildo",
+    "avenida cabildo": "av cabildo",
+    "av cabildo": "av cabildo",
+
+    "corrientes": "av corrientes",
+    "avenida corrientes": "av corrientes",
+    "av corrientes": "av corrientes"
+
+  }
+}

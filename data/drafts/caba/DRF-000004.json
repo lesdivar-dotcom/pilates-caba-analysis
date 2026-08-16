@@ -1,0 +1,29 @@
+{
+  "draft_id": "DRF-000004",
+  "city": "caba",
+  "estado": "published",
+  "created_at": "2026-08-16T08:58:05",
+  "updated_at": "2026-08-16T08:59:10",
+  "historial": [
+    {
+      "fecha": "2026-08-16T08:58:05",
+      "evento": "draft_creado"
+    },
+    {
+      "fecha": "2026-08-16T08:59:10",
+      "evento": "published"
+    }
+  ],
+  "datos": {
+    "nombre": "Naos Pilates Studio",
+    "direccion": "Jose E. Uriburu 1617",
+    "barrio": "Recoleta",
+    "telefono": "1125632541",
+    "email": "",
+    "instagram": "@Naos.pilates",
+    "web": "naospilatesstudio.com",
+    "fabricantes": "fabricacion propia",
+    "observaciones": "apertura: abril de 2025"
+  },
+  "id_estudio": "EST-0402"
+}
